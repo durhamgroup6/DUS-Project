@@ -251,9 +251,9 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
             <h2>
 
                 <div class="banner-form">
-                    <form class="search_form" action="search.php" method="post">
-                        <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search" name="facility" required/>
-                        <input class="wow fadeInLeft" data-wow-delay="0.5s" type="submit" value="Search"/>
+                    <form class="search_form" action="" method="post">
+                        <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search" name="facility"/>
+                        <input class="wow fadeInLeft" data-wow-delay="0.5s" type="submit" name="submit" value="Search"/>
                     </form>
                     <div class="search">
                         <span></span>
@@ -268,8 +268,25 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
             </header>
             <div >
                <div class="container">
-                   <?php include_once "database.php";
-                   showfacilities();?>
+                   <?php
+                   require_once 'database.php';
+                   //$record = $pdo->query("SELECT game.gameName,record.time,record.result FROM competition JOIN record ON record.competitionid = competition.competitionid JOIN game ON competition.gameid = game.gameid WHERE userid = '".$_SESSION['user']['userid'AND game.rank<=7]."';");
+                   $facility=filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_STRING);
+                   if(isset($_POST['submit'])&& $_POST['submit']=="Search"&&$facility!=null) {
+                       $search = $pdo->query("SELECT * FROM facility WHERE FacilityName LIKE '%" . $facility . "%';");
+                       while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
+                           echo '<div class="cell">';
+                           echo '<div class="image"><img src="../images/' . $row['FacilityName'] . '.jpg"></a></div>';
+                           echo '<div align="center"><table style="width: 220px;text-align: center"><tr>
+                    <th style="font-size: 1.8em">' . $row['FacilityName'] . '</th>
+                    </tr>
+                    <tr>
+                    <td style="font-size: 1.2em">' . $row['Description'] . '</td>
+                    </tr></table></div>';
+                           echo '</div>';
+                       }
+                   }else{
+                   showfacilities();}?>
                </div>
                 <div class="clear"></div>
             </div>
