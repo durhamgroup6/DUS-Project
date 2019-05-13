@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-05-11 19:39:42
+-- 生成日期： 2019-05-13 04:02:11
 -- 服务器版本： 10.1.38-MariaDB
 -- PHP 版本： 7.3.2
 
@@ -30,13 +30,32 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
-  `EventID` int(20) NOT NULL,
+  `EventID` int(20) DEFAULT NULL,
   `UserID` int(20) NOT NULL,
   `StartTime` datetime NOT NULL,
   `EndTime` datetime NOT NULL,
   `Price` int(20) NOT NULL,
-  `FacilityID` int(20) NOT NULL
+  `FacilityID` int(20) NOT NULL,
+  `color` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `booking`
+--
+
+INSERT INTO `booking` (`BookingID`, `EventID`, `UserID`, `StartTime`, `EndTime`, `Price`, `FacilityID`, `color`) VALUES
+(1, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(2, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(3, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(4, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(5, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(6, NULL, 4, '2019-05-22 09:00:00', '2019-05-22 10:00:00', 18, 4, 'blue'),
+(7, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 18, 4, 'blue'),
+(8, NULL, 4, '2019-05-31 09:00:00', '2019-05-31 10:00:00', 9, 5, 'pink'),
+(9, NULL, 4, '2019-05-31 10:00:00', '2019-05-31 11:00:00', 9, 5, 'pink'),
+(10, NULL, 4, '2019-05-31 11:00:00', '2019-05-31 12:00:00', 9, 5, 'pink'),
+(11, NULL, 4, '2019-05-27 14:00:00', '2019-05-27 15:00:00', 27, 6, 'orange'),
+(12, NULL, 4, '2019-05-14 11:00:00', '2019-05-14 12:00:00', 27, 6, 'orange');
 
 -- --------------------------------------------------------
 
@@ -49,18 +68,19 @@ CREATE TABLE `event` (
   `EventName` text CHARACTER SET utf8 NOT NULL,
   `TrainerID` int(11) NOT NULL,
   `Capacity` int(11) NOT NULL,
-  `Description` longtext CHARACTER SET utf8 NOT NULL,
+  `Description` longtext NOT NULL,
   `StartDate` datetime NOT NULL,
   `EndDate` datetime NOT NULL,
-  `FacilityID` int(11) NOT NULL
+  `FacilityID` int(11) NOT NULL,
+  `color` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `event`
 --
 
-INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Description`, `StartDate`, `EndDate`, `FacilityID`) VALUES
-(1, 'dance', 2, 3, 'love u', '2019-05-09 00:00:00', '2019-05-13 00:00:00', 2);
+INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Description`, `StartDate`, `EndDate`, `FacilityID`, `color`) VALUES
+(1, 'dance', 2, 3, 'love u', '2019-05-09 00:00:00', '2019-05-13 00:00:00', 3, 'green');
 
 -- --------------------------------------------------------
 
@@ -82,11 +102,12 @@ CREATE TABLE `facility` (
 --
 
 INSERT INTO `facility` (`FacilityID`, `FacilityName`, `Description`, `Price`, `Capacity`, `Availability`) VALUES
-(2, 'ball room', 'young and beautiful', 0, 100, 1),
-(3, 'Squash Courts', 'Squash Courts: &pound6 per court, per hour.', 6, 100, 1),
-(4, 'Aerobics room', 'A mirrored studio is avaliable for group classes such as dance, yoga and pilates. This space can also be used for presentations and functions.\r\n\r\nAerobics Room - &pound20.00 per hour', 20, 100, 1),
-(5, 'Tennis', 'Tennis (Tarmac) - &pound10.00 per court per hour', 10, 100, 1),
-(6, 'Athletics Track', 'Track - &pound2.00 per person\r\n\r\nTrack (sole use) - &pound30.00 per hour', 30, 100, 1);
+(3, 'Squash Courts', 'Squash Courts: &pound6 per court, per hour.', 6, 20, 1),
+(4, 'Aerobics room', 'A mirrored studio is avaliable for group classes such as dance, yoga and pilates. This space can also be used for presentations and functions.\r\n\r\nAerobics Room - &pound20.00 per hour', 20, 20, 1),
+(5, 'Tennis', 'Tennis (Tarmac) - &pound10.00 per court per hour', 10, 20, 1),
+(6, 'Athletics Track', 'Track - &pound2.00 per person\r\n\r\nTrack (sole use) - &pound30.00 per hour', 30, 20, 1),
+(7, 'Fitness Suite', 'The fitness suite is fully air conditioned and benefits from a wide variety of machines and equipment including Technogym resistance machines, cable systems, free weights, cardio vascular machines, TRX suspension training system, ViPR trainers and medicine balls, as well as foam rollers and exercise balls. We also have a chilled water dispenser and large screen TVs.  We have a number of fully qualified and knowledgeable members of staff who can assist with any of your needs and provide guidance with exercises or workout plans.  You will also benefit from free parking and on-site change/shower facilities.  Opening Times:  Monday to Friday 7.00 am to 10.00 pm (last entry, 9.15 pm) Saturday & Sunday  9.00 am to 6.00 pm (last entry, 5.15 pm)\r\n\r\nAddress:Durham DH1 3SE, UK\r\n\r\nEmail:Fitness.suite@dur.ac.uk\r\n\r\nPhone:1913342178', 5, 20, 1),
+(8, 'Maiden Castle Physiotherapy', 'Who are we and what can we do for you?  Maiden Castle Physiotherapy (MCP) is a friendly and experienced team offering services to the athletes of Team Durham and the surrounding area. Based at the Graham Sports Centre in Maiden Castle, our specialist team offer physiotherapy for a wide range of musculoskeletal conditions including sports injuries, back, neck or joint or muscle pains or sports injuries.  Our team of experienced state registered NHS physiotherapists will assess and provide tailored treatment programmes to help get you back on track, achieve your overall fitness goals and offer preventative advice to help you stay pain free.  Physiotherapy assessment/treatment 30 minutes &pound30  Discounted rate for Durham University Staff &pound28  Discounted for Durham University Students &pound24  Sports massage 30 minutes &pound25  Book your appointment through the Graham Sports Centre reception today  Daytime and evening appointments available  Our opening hours are:  Monday afternoon/evening  Tuesday afternoon/evening  Wednesday all day  Thursday afternoon/evening  Friday morning  If you book an appointment with us:   	During physiotherapy and massage appointments you may be asked to remove items of clothing to allow for assessment and treatment of an area and adjacent joints. 	For screening please wear shorts, trainers and a sports top. 	Athletes under 16 will need to be accompanied by a chaperone. 	If you have a preference for a male or female therapist please make the request when booking your appointment.', 20, 20, 1);
 
 -- --------------------------------------------------------
 
@@ -110,9 +131,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`UserID`, `Password`, `Email`, `Phone`, `Role`, `Firstname`, `Lastname`, `resetpasswordtime`) VALUES
-(2, '$2y$10$.wfdFWUfsvO7QQ0v6ScBQuXwXDxy5IUDMMxLh6gd8XAET41XnjaLS', '414454879@qq.com', '7851666865', 'user', 'z', 'chen', 0),
+(2, '$2y$10$.wfdFWUfsvO7QQ0v6ScBQuXwXDxy5IUDMMxLh6gd8XAET41XnjaLS', '414454879@qq.com', '7851666865', 'trainer', 'z', 'chen', 0),
 (3, '$2y$10$DIUIRhmJ44GlwRmmnUzA0.sNQm6kkPtDKke3LFqW3nGvyY3IgVrBG', '123@qq.com', '123', 'user', 'a', 'chen', 0),
-(4, '$2y$10$B6213fivCLUWAFvrGYOPKOkfC2VdkGfY11kxsCTm7GkGDSDNXfkTq', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1557584318);
+(4, '$2y$10$B6213fivCLUWAFvrGYOPKOkfC2VdkGfY11kxsCTm7GkGDSDNXfkTq', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1557712525),
+(5, '$2y$10$Hs34F6Jd6iHa7K6Qzk4i3eDkHSb9rAZk0pMmmfDRC10SCmm15ar9i', 'wanyu.hong@durham.ac.uk', '1234567', 'user', 'sha', 'se', 1557712174);
 
 --
 -- 转储表的索引
@@ -150,7 +172,7 @@ ALTER TABLE `user`
 -- 使用表AUTO_INCREMENT `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- 使用表AUTO_INCREMENT `event`
@@ -162,13 +184,13 @@ ALTER TABLE `event`
 -- 使用表AUTO_INCREMENT `facility`
 --
 ALTER TABLE `facility`
-  MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用表AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
