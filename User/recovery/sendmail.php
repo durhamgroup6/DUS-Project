@@ -1,5 +1,5 @@
 <?php
-include_once("../database.php");
+include_once("../database/database.php");
 
 $email = stripslashes(trim($_POST['mail']));
 
@@ -14,14 +14,14 @@ if ($row == null) {//this email does not register！
     $uid = $row['UserID'];
     $firstname = $row['Firstname'];
     $token = md5($uid . $row['Email'] . $row['Password']);
-    $url = "http://localhost:63342/DUS-Project3.0/User/recovery/reset.php?_ijt=ur5g5i1aa1rbh4nam0pdj1um0e?reset=yes&token=" . $token . "&email=" . $email;
+    $url = "http://localhost:63342//Users/LULU/PhpstormProjects/DUS-Project/User/recovery/reset.php?_ijt=ur5g5i1aa1rbh4nam0pdj1um0e?reset=yes&token=" . $token . "&email=" . $email;
     $time = date('Y-m-d H:i');
     $result = sendmail($firstname,$time, $email, $url);
     if ($result == 1) {//邮件发送成功
         $msg = 'The System has sent a email for you,check your email and reset your password please！';
         //update reset password time
         $sql = "UPDATE user SET resetpasswordtime='$getpasstime' WHERE UserID='$uid'";
-        $result = $pdo->query($sql);
+        $pdo->query($sql);
     } else {
         $msg = $result;
     }
@@ -47,7 +47,7 @@ if ($row == null) {//this email does not register！
 //}
 
 function sendmail($firstname,$time, $email, $url){
-    require '../php/PHPMailer.php';
+    require 'PHPMailer.php';
 
     $mail = new PHPMailer;
 

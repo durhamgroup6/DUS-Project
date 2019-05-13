@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
+if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     $firstname = $_SESSION['user']['Firstname'];
 }
 ?>
@@ -9,20 +9,20 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 <html class="no-js" lang="en">
 <head>
     <title>TeamDurham : Facilities</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" >
-    <link href="../style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/collection.js"></script>
-    <script type="text/javascript" src="../jquery-2.1.4.min.js"></script>
-    <script src="../js/html5.js"></script>
-    <link href='../fullcalendar.min.css' rel='stylesheet'/>
-    <link href='../fullcalendar.print.min.css' rel='stylesheet' media='print'/>
-    <script src='../lib/moment.min.js'></script>
-    <script src='../lib/jquery.min.js'></script>
-    <script src='../fullcalendar.min.js'></script>
-    <script type="text/javascript" src="../lib/jquery.fancybox.pack.js?v=2.1.5"></script>
-    <link rel="stylesheet" type="text/css" href="../lib/jquery.fancybox.css?v=2.1.5" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/collection.js"></script>
+    <script type="text/javascript" src="User/lib/jquery-2.1.4.min.js"></script>
+    <script src="js/html5.js"></script>
+    <link href='User/calendarcss/fullcalendar.min.css' rel='stylesheet'/>
+    <link href='User/calendarcss/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
+    <script src='User/lib/moment.min.js'></script>
+    <script src='User/lib/jquery.min.js'></script>
+    <script src='User/lib/fullcalendar.min.js'></script>
+    <script type="text/javascript" src="User/lib/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <link rel="stylesheet" type="text/css" href="User/calendarcss/jquery.fancybox.css?v=2.1.5" media="screen"/>
     <script>
 
         $(document).ready(function () {
@@ -36,12 +36,21 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
                     right: 'month,agendaWeek,agendaDay,listYear'
                 },
                 defaultDate: defaultDate,
+                selectable: true,
+                selectHelper: true,
+                allDay: false,
                 editable: true,
                 navLinks: true, // can click day/week names to navigate views
                 eventLimit: true, // allow "more" link when too many events
+                views: {
+                    agenda: {
+                        eventLimit: 6 // adjust to 6 only for agendaWeek/agendaDay
+                    }
+                },
                 businessHours: true,
+                slotDuration: '01:00:00',
                 events: {
-                    url: 'php/get-events.php',
+                    url: 'User/php/get-events.php',
                     error: function () {
                         $('#script-warning').show();
                     }
@@ -52,29 +61,68 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
                 eventClick: function (calEvent, jsEvent, view) {
                     $.fancybox({
                         'type': 'ajax',
-                        'href': 'php/showevent.php?id=' + calEvent.id
+                        'href': 'User/php/showevent.php?id=' + calEvent.id +'&color='+calEvent.color
                     });
+                },
+                // dayClick: function(date, jsEvent, view) {
+                //     $.fancybox({
+                //         'type': 'ajax',
+                //         'href': 'User/booking.php?date=' + date.format()
+                //     });
+                // }
+                selectable: true,
+                selectConstraint: {
+                    start: $.fullCalendar.moment().subtract(1, 'days'),
+                    end: $.fullCalendar.moment().startOf('month').add(1, 'month')
+                },
+                select: function (date, jsEvent, view) {
+                    $.fancybox({
+                        'type': 'ajax',
+                        'href': 'User/php/booking.php?date=' + date.format()
+                    });
+
                 }
             });
 
         });
 
-        $(function(){
-            $("#sub_btn").click(function(){
+        $(function () {
+            $("#sub_btn").click(function () {
                 var email = $("#email").val();
                 var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //match Email
-                if(email=='' || !preg.test(email)){
+                if (email == '' || !preg.test(email)) {
                     $("#chkmsg").html("Please enter correct email address！");
-                }else{
-                    $("#sub_btn").attr("disabled","disabled").val('submiting..').css("cursor","default");
-                    $.post("recovery/sendmail.php",{mail:email},function(msg){
-                        if(msg=="noreg"){
+                } else {
+                    $("#sub_btn").attr("disabled", "disabled").val('submiting..').css("cursor", "default");
+                    $.post("User/recovery/sendmail.php", {mail: email}, function (msg) {
+                        if (msg == "noreg") {
                             alert("This email does not register！");
-                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor","pointer");
-                        }else{
+                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor", "pointer");
+                        } else {
                             alert(msg);
-                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor","pointer");
+                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor", "pointer");
                             //window.location.href="index.php";
+                        }
+                    });
+                }
+            });
+        })
+
+        $(function () {
+            $("#sub_btn").click(function () {
+                var email = $("#email").val();
+                var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //match Email
+                if (email == '' || !preg.test(email)) {
+                    $("#chkmsg").html("Please enter correct email address！");
+                } else {
+                    $("#sub_btn").attr("disabled", "disabled").val('submiting..').css("cursor", "default");
+                    $.post("User/recovery/sendmail.php", {mail: email}, function (msg) {
+                        if (msg == "noreg") {
+                            alert("This email does not register！");
+                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor", "pointer");
+                        } else {
+                            alert(msg);
+                            window.location.href="index.php";
                         }
                     });
                 }
@@ -117,7 +165,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         }
 
     </style>
-    <script src="../js/belatedPNG.js"></script>
+    <script src="js/belatedPNG.js"></script>
     <script>
         DD_belatedPNG.fix('*');
     </script>
@@ -136,11 +184,11 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         <ul>
             <div class="w3_agile_login">
                 <li class="active"><a href="index.php">Home</a></li>
-                <li><a href="Contact.php">Contact</a></li>
+                <li><a href="User/Contact.php">Contact</a></li>
                 <?php
                 if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                    echo '<li><a href="mybooking.php">My Bookings</a></li><li><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="logout.php">Logout</a></li>';
-                }else{
+                    echo '<li><a href="User/mybooking.php">My Bookings</a></li><li><a href="User/PersonalDetail.php">Personal Detail</a></li><li><a href="User/php/logout.php">Logout</a></li>';
+                } else {
                     echo '<li><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
                 }
                 ?>
@@ -154,13 +202,13 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     <div id="small-dialog" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Login</h3>
         <div class="agileits_modal_body">
-            <form action="login_check.php" method="post">
+            <form action="User/php/login_check.php" method="post">
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/ev.png" width="22" height="22">
+                    <img src="images/ev.png" width="22" height="22">
                     <input type="text" name="Email" placeholder="Email Address" required="">
                 </div>
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/pw.png" width="22" height="22">
+                    <img src="images/pw.png" width="22" height="22">
                     <input type="password" name="Password" placeholder="Password" required="">
                 </div>
                 <div class="agile_remember">
@@ -180,11 +228,12 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         <div class="agileits_modal_body">
             <form action="#" method="post">
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/phone.png" width="22" height="22">
-                    <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span id="chkmsg"></span>
+                    <img src="images/phone.png" width="22" height="22">
+                    <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span
+                            id="chkmsg"></span>
                 </div>
 
-                <input type="button" id ="sub_btn" value="Reset">
+                <input type="button" id="sub_btn" value="Reset">
             </form>
             <h5>Back to <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></h5>
         </div>
@@ -193,32 +242,32 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     <div id="small-dialog1" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Sign Up</h3>
         <div class="agileits_modal_body">
-            <form action="register_check.php" method="post">
+            <form action="User/php/register_check.php" method="post">
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/user.png" width="22" height="22">
+                    <img src="images/user.png" width="22" height="22">
                     <input type="text" name="firstname" placeholder="First Name" required="">
                 </div>
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/user.png" width="22" height="22">
+                    <img src="images/user.png" width="22" height="22">
                     <input type="text" name="lastname" placeholder="Last Name" required="">
                 </div>
 
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/phone.png" width="22" height="22">
+                    <img src="images/phone.png" width="22" height="22">
                     <input type="text" name="email" placeholder="Email Address" required="">
                 </div>
 
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/phone.png" width="22" height="22">
+                    <img src="images/phone.png" width="22" height="22">
                     <input type="text" name="phone" placeholder="Phone Number" required="">
                 </div>
 
                 <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits">
-                    <img src="../images/pw.png" width="22" height="22">
+                    <img src="images/pw.png" width="22" height="22">
                     <input type="password" name="password" placeholder="Password" required="">
                 </div>
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/confirm.png" width="22" height="22">
+                    <img src="images/confirm.png" width="22" height="22">
                     <input type="password" name="confirmPassword" placeholder="Confirm Password" required="">
                 </div>
 
@@ -228,7 +277,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         </div>
     </div>
     <!-- //pop-up-box -->
-    <script src="../jquery.magnific-popup.js" type="text/javascript"></script>
+    <script src="User/lib/jquery.magnific-popup.js" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('.popup-with-zoom-anim').magnificPopup({
@@ -252,7 +301,8 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 
                 <div class="banner-form">
                     <form class="search_form" action="" method="post">
-                        <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search" name="facility"/>
+                        <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search"
+                               name="facility"/>
                         <input class="wow fadeInLeft" data-wow-delay="0.5s" type="submit" name="submit" value="Search"/>
                     </form>
                     <div class="search">
@@ -266,28 +316,29 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
             <header class="mainheading">
                 <h2 class="introhead">Main Facilities in Maiden Castle</h2>
             </header>
-            <div >
-               <div class="container">
-                   <?php
-                   require_once 'database.php';
-                   //$record = $pdo->query("SELECT game.gameName,record.time,record.result FROM competition JOIN record ON record.competitionid = competition.competitionid JOIN game ON competition.gameid = game.gameid WHERE userid = '".$_SESSION['user']['userid'AND game.rank<=7]."';");
-                   $facility=filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_STRING);
-                   if(isset($_POST['submit'])&& $_POST['submit']=="Search"&&$facility!=null) {
-                       $search = $pdo->query("SELECT * FROM facility WHERE FacilityName LIKE '%" . $facility . "%';");
-                       while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
-                           echo '<div class="cell">';
-                           echo '<div class="image"><img src="../images/' . $row['FacilityName'] . '.jpg"></a></div>';
-                           echo '<div align="center"><table style="width: 220px;text-align: center"><tr>
+            <div>
+                <div class="container">
+                    <?php
+                    require_once 'User/database/database.php';
+                    //$record = $pdo->query("SELECT game.gameName,record.time,record.result FROM competition JOIN record ON record.competitionid = competition.competitionid JOIN game ON competition.gameid = game.gameid WHERE userid = '".$_SESSION['user']['userid'AND game.rank<=7]."';");
+                    $facility = filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_STRING);
+                    if (isset($_POST['submit']) && $_POST['submit'] == "Search" && $facility != null) {
+                        $search = $pdo->query("SELECT * FROM facility WHERE FacilityName LIKE '%" . $facility . "%';");
+                        while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
+                            echo '<div class="cell">';
+                            echo '<div class="image"><img src="images/' . $row['FacilityName'] . '.jpg"></a></div>';
+                            echo '<div align="center"><table style="width: 220px;text-align: center"><tr>
                     <th style="font-size: 1.8em">' . $row['FacilityName'] . '</th>
                     </tr>
                     <tr>
-                    <td style="font-size: 1.2em">' . $row['Description'] . '</td>
+                    <td style="font-size: 1.2em"><textarea name="reworkmes" cols="40" rows="4" style="overflow:scroll; overflow-x: hidden;" readonly>' . $row['Description'] . '</textarea></td>
                     </tr></table></div>';
-                           echo '</div>';
-                       }
-                   }else{
-                   showfacilities();}?>
-               </div>
+                            echo '</div>';
+                        }
+                    } else {
+                        showfacilities();
+                    } ?>
+                </div>
                 <div class="clear"></div>
             </div>
             <div id="fourcols">
@@ -311,10 +362,10 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 <footer>
 
     <div id="bottom">
-        <a href="index.php">Home</a> |  <a href="Contact.php">Contact</a> | <?php
+        <a href="index.php">Home</a> | <a href="User/Contact.php">Contact</a> | <?php
         if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-            echo '<a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome '.$firstname.' <a href="logout.php">Logout</a>';
-        }else{
+            echo '<a href="User/mybooking.php">My Bookings</a> | <a href="User/PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="User/php/logout.php">Logout</a>';
+        } else {
             echo '<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
         }
         ?>

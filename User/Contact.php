@@ -15,7 +15,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     <link href="../style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/collection.js"></script>
-    <script type="text/javascript" src="../jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
     <script src="../js/html5.js"></script>
     <script>
         $(function(){
@@ -58,11 +58,11 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         </h1>
         <ul>
             <div class="w3_agile_login">
-                <li><a href="index.php">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li class="active"><a href="Contact.php">Contact</a></li>
                 <?php
                 if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                    echo '<li><a href="mybooking.php">My Bookings</a></li><li><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="logout.php">Logout</a></li>';
+                    echo '<li><a href="mybooking.php">My Bookings</a></li><li><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="php/logout.php">Logout</a></li>';
                 }else{
                     echo '<li><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
                 }
@@ -77,7 +77,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     <div id="small-dialog" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Login</h3>
         <div class="agileits_modal_body">
-            <form action="login_check.php" method="post">
+            <form action="php/login_check.php" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="../images/ev.png" width="22" height="22">
                     <input type="text" name="Email" placeholder="Email Address" required="">
@@ -116,7 +116,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     <div id="small-dialog1" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Sign Up</h3>
         <div class="agileits_modal_body">
-            <form action="register_check.php" method="post">
+            <form action="php/register_check.php" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="../images/user.png" width="22" height="22">
                     <input type="text" name="firstname" placeholder="First Name" required="">
@@ -151,7 +151,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         </div>
     </div>
     <!-- //pop-up-box -->
-    <script src="../jquery.magnific-popup.js" type="text/javascript"></script>
+    <script src="lib/jquery.magnific-popup.js" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('.popup-with-zoom-anim').magnificPopup({
@@ -215,9 +215,9 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 <footer>
 
     <div id="bottom">
-        <a href="index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
+        <a href="../index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
         if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-            echo '<a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome '.$firstname.' <a href="logout.php">Logout</a>';
+            echo '<a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome '.$firstname. ' <a href="php/logout.php">Logout</a>';
         }else{
             echo '<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
         }

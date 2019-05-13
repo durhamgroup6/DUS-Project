@@ -39,7 +39,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "update") {
         <?php
         die();
     }
-    include 'database.php';
+    include '../database/database.php';
     $stmt = $pdo->query("SELECT * FROM user WHERE email='$email'");
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if($user['Password']!=$password) {

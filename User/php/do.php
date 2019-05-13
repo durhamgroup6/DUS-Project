@@ -1,5 +1,5 @@
 <?php
-include_once('../database.php');//连接数据库
+include_once('../database/database.php');//连接数据库
 
     $eventid = $_POST['id'];
     $eventname = stripslashes(trim($_POST['event']));//事件内容

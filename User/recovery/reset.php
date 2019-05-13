@@ -1,5 +1,5 @@
 <?php
-include_once("../database.php");
+include_once("../database/database.php");
 $token = stripslashes(trim($_GET['token']));
 $email = stripslashes(trim($_GET['email']));
 
@@ -38,7 +38,7 @@ if(time()-$row['resetpasswordtime']>24*60*60){
         $password_hash = password_hash($password_hash, PASSWORD_DEFAULT);
         $sql = "Update user set Password = '$password_hash' where Email = '$email'";
         $pdo->query($sql);
-        echo '<script>alert("reset success!"); window.location.href="../index.php";</script>';
+        echo '<script>alert("reset success!"); window.location.href="../../index.php";</script>';
     }
 }
 }else{

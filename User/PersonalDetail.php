@@ -15,29 +15,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <link href="../style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/collection.js"></script>
-    <script type="text/javascript" src="../jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
     <script src="../js/html5.js"></script>
     <script>
-        $(function () {
-            $("#sub_btn").click(function () {
-                var email = $("#email").val();
-                var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //match Email
-                if (email == '' || !preg.test(email)) {
-                    $("#chkmsg").html("Please enter correct email address！");
-                } else {
-                    $("#sub_btn").attr("disabled", "disabled").val('submiting..').css("cursor", "default");
-                    $.post("recovery/sendmail.php", {mail: email}, function (msg) {
-                        if (msg == "noreg") {
-                            alert("This email does not register！");
-                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor", "pointer");
-                        } else {
-                            alert(msg);
-                            window.location.href = "index.html";
-                        }
-                    });
-                }
-            });
-        })
 
     </script>
     <script src="../js/belatedPNG.js"></script>
@@ -58,11 +38,11 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         </h1>
         <ul>
             <div class="w3_agile_login">
-                <li><a href="index.php">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li><a href="Contact.php">Contact</a></li>
                 <?php
                 if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                    echo '<li><a href="mybooking.php">My Bookings</a></li><li class="active"><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="logout.php">Logout</a></li>';
+                    echo '<li><a href="mybooking.php">My Bookings</a></li><li class="active"><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="php/logout.php">Logout</a></li>';
                 } else {
                     header('Location: index.php');
                 }
@@ -90,7 +70,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         </header>
         <div class="clear"></div>
         <div>
-            <form action="persondetail_update.php" method="post">
+            <form action="php/persondetail_update.php" method="post">
 
                 <div class="agileits_w3layouts_user">
                     Email:
@@ -128,9 +108,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 <footer>
 
     <div id="bottom">
-        <a href="index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
+        <a href="../index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
         if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-            echo ' <a href="">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="logout.php">Logout</a>';
+            echo ' <a href="">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="php/logout.php">Logout</a>';
         }
         ?>
         <div class="clear"></div>
