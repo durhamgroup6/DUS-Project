@@ -49,6 +49,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 },
                 businessHours: true,
                 slotDuration: '01:00:00',
+                eventStartEditable:false,
                 events: {
                     url: 'User/php/get-events.php',
                     error: function () {
@@ -64,16 +65,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                         'href': 'User/php/showevent.php?id=' + calEvent.id +'&color='+calEvent.color
                     });
                 },
-                // dayClick: function(date, jsEvent, view) {
-                //     $.fancybox({
-                //         'type': 'ajax',
-                //         'href': 'User/booking.php?date=' + date.format()
-                //     });
-                // }
-                selectable: true,
                 selectConstraint: {
                     start: $.fullCalendar.moment().subtract(1, 'days'),
-                    end: $.fullCalendar.moment().startOf('month').add(1, 'month')
+                    end: $.fullCalendar.moment().startOf('month').add(1, 'year')
                 },
                 select: function (date, jsEvent, view) {
                     $.fancybox({

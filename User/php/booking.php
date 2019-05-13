@@ -1,14 +1,23 @@
 <?php
-if (isset($_GET['date']) && $_GET['date'] != null) {
-    $date = $_GET['date'];
-    $start_d = date("Y-m-d", strtotime($date));
-    $start_t = date("H:i:s", strtotime($date));
-}
 include_once '../database/database.php';
 $pdo = make_database_connection();
 session_start();
-$userId = $_SESSION['user']['UserID'];
+if (isset($_GET['date']) && $_GET['date'] != null) {
+    $date = $_GET['date'];
+    $newdate = date("Y-m-d H:i:s", strtotime($date));
+    $start_d = date("Y-m-d", strtotime($date));
+    $start_t = date("H:i:s", strtotime($date));
+    $sql = "SELECT StartDate,EndDate FROM event WHERE color = 'red'";
+    $result = $pdo->query($sql);
+    while ($row=$result->fetch(PDO::FETCH_NUM)){
+        if($newdate>=$row[0]&&$newdate<$row[1]){
+            echo "This time is unavailable for booking";
+            die();
+        }
+    }
+}
 if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
+    $userId = $_SESSION['user']['UserID'];
     $facilityName = filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_STRING);
     $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_STRING);
     $startTime = date('Y-m-d H:i:s', strtotime($startTime));//formatting it a bit
@@ -129,55 +138,60 @@ function sendmail($firstname, $email, $price, $facility, $start, $end)
 
 }
 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script type="text/javascript">
-        function check() {
-            var startTime = document.getElementById("startTime").value;
+if(isset($_SESSION['user'])&&$_SESSION['user']!=null){
+   echo '<!DOCTYPE html >
+<html lang = "en" >
+<head >
+    <script type = "text/javascript" >
+        function check()
+        {
+            var
+            startTime = document . getElementById("startTime") . value;
             if (startTime == "") {
-                alert('pick a time!');
+                alert("pick a time!");
                 return false
             } else {
                 return true;
             }
         }
-    </script>
-    <meta charset="UTF-8">
-    <title>Book</title>
-</head>
-<body>
-<form class="book_form" action="User/php/booking.php" method="post" onsubmit="return check()">
-    Facility: <select name="facility">
-        <option value="Squash Courts">Squash Courts</option>
-        <option value="Aerobics room">Aerobics room</option>
-        <option value="Tennis">Tennis</option>
-        <option value="Athletics Track">Athletics Track</option>
-    </select><br>
-    Start Time: <input type="datetime-local" id="startTime" name="startTime"
-                       value="<?php echo $start_d . 'T' . $start_t; ?>"/><br>
-    How Long: <select name="howLong">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-        <option value="14">14</option>
-        <option value="15">15</option>
-    </select><br>
-    Are You a Member? <input type="radio" name="isMember" value="1" checked>Yes
-    <input type="radio" name="isMember" value="0">NO<br>
-    <input type="submit" name="submit" value="Book!">
-</form>
-</body>
-</html>
+    </script >
+    <meta charset = "UTF-8" >
+    <title > Book</title >
+</head >
+<body >
+<form class="book_form" action = "User/php/booking.php" method = "post" onsubmit = "return check()" >
+        Facility: <select name = "facility" >
+        <option value = "Squash Courts" > Squash Courts </option >
+        <option value = "Aerobics room" > Aerobics room </option >
+        <option value = "Tennis" > Tennis</option >
+        <option value = "Athletics Track" > Athletics Track </option >
+    </select ><br >
+    Start Time: <input type = "datetime-local" id = "startTime" name = "startTime"
+                       value = '.$start_d . 'T' . $start_t.' /><br >
+    How Long: <select name = "howLong" >
+        <option value = "1" > 1</option >
+        <option value = "2" > 2</option >
+        <option value = "3" > 3</option >
+        <option value = "4" > 4</option >
+        <option value = "5" > 5</option >
+        <option value = "6" > 6</option >
+        <option value = "7" > 7</option >
+        <option value = "8" > 8</option >
+        <option value = "9" > 9</option >
+        <option value = "10" > 10</option >
+        <option value = "11" > 11</option >
+        <option value = "12" > 12</option >
+        <option value = "13" > 13</option >
+        <option value = "14" > 14</option >
+        <option value = "15" > 15</option >
+    </select ><br >
+    Are You a Member ? <input type = "radio" name = "isMember" value = "1" checked > Yes
+    <input type = "radio" name = "isMember" value = "0" > NO<br >
+    <input type = "submit" name = "submit" value = "Book!" >
+</form >
+</body >
+</html >';
+    }else{
+    echo "If you want to make a booking, please login firstly";
+}
+?>
