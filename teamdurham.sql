@@ -2,10 +2,10 @@
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- 主机： localhost
--- 生成日期： 2019-05-13 04:02:11
--- 服务器版本： 10.1.38-MariaDB
--- PHP 版本： 7.3.2
+-- Host: localhost
+-- Generation Time: May 13, 2019 at 04:35 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,48 +19,48 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `teamdurham`
+-- Database: `teamdurham`
 --
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `booking`
+-- Table structure for table `booking`
 --
 
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
-  `EventID` int(20) DEFAULT NULL,
   `UserID` int(20) NOT NULL,
   `StartTime` datetime NOT NULL,
   `EndTime` datetime NOT NULL,
-  `Price` int(20) NOT NULL,
+  `Price` float NOT NULL,
   `FacilityID` int(20) NOT NULL,
   `color` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `booking`
+-- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`BookingID`, `EventID`, `UserID`, `StartTime`, `EndTime`, `Price`, `FacilityID`, `color`) VALUES
-(1, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
-(2, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
-(3, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
-(4, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
-(5, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
-(6, NULL, 4, '2019-05-22 09:00:00', '2019-05-22 10:00:00', 18, 4, 'blue'),
-(7, NULL, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 18, 4, 'blue'),
-(8, NULL, 4, '2019-05-31 09:00:00', '2019-05-31 10:00:00', 9, 5, 'pink'),
-(9, NULL, 4, '2019-05-31 10:00:00', '2019-05-31 11:00:00', 9, 5, 'pink'),
-(10, NULL, 4, '2019-05-31 11:00:00', '2019-05-31 12:00:00', 9, 5, 'pink'),
-(11, NULL, 4, '2019-05-27 14:00:00', '2019-05-27 15:00:00', 27, 6, 'orange'),
-(12, NULL, 4, '2019-05-14 11:00:00', '2019-05-14 12:00:00', 27, 6, 'orange');
+INSERT INTO `booking` (`BookingID`, `UserID`, `StartTime`, `EndTime`, `Price`, `FacilityID`, `color`) VALUES
+(1, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(2, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(3, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(4, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(5, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 5, 3, 'yellow'),
+(6, 4, '2019-05-22 09:00:00', '2019-05-22 10:00:00', 18, 4, 'blue'),
+(7, 4, '2019-05-22 10:00:00', '2019-05-22 11:00:00', 18, 4, 'blue'),
+(8, 4, '2019-05-31 09:00:00', '2019-05-31 10:00:00', 9, 5, 'pink'),
+(9, 4, '2019-05-31 10:00:00', '2019-05-31 11:00:00', 9, 5, 'pink'),
+(10, 4, '2019-05-31 11:00:00', '2019-05-31 12:00:00', 9, 5, 'pink'),
+(11, 4, '2019-05-27 14:00:00', '2019-05-27 15:00:00', 27, 6, 'orange'),
+(12, 4, '2019-05-14 11:00:00', '2019-05-14 12:00:00', 27, 6, 'orange'),
+(13, 4, '2019-05-16 21:00:00', '2019-05-16 22:00:00', 5, 3, 'yellow');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `event`
+-- Table structure for table `event`
 --
 
 CREATE TABLE `event` (
@@ -76,7 +76,7 @@ CREATE TABLE `event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `event`
+-- Dumping data for table `event`
 --
 
 INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Description`, `StartDate`, `EndDate`, `FacilityID`, `color`) VALUES
@@ -85,7 +85,7 @@ INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Descripti
 -- --------------------------------------------------------
 
 --
--- 表的结构 `facility`
+-- Table structure for table `facility`
 --
 
 CREATE TABLE `facility` (
@@ -98,7 +98,7 @@ CREATE TABLE `facility` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `facility`
+-- Dumping data for table `facility`
 --
 
 INSERT INTO `facility` (`FacilityID`, `FacilityName`, `Description`, `Price`, `Capacity`, `Availability`) VALUES
@@ -112,7 +112,7 @@ INSERT INTO `facility` (`FacilityID`, `FacilityName`, `Description`, `Price`, `C
 -- --------------------------------------------------------
 
 --
--- 表的结构 `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -127,7 +127,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`UserID`, `Password`, `Email`, `Phone`, `Role`, `Firstname`, `Lastname`, `resetpasswordtime`) VALUES
@@ -137,57 +137,57 @@ INSERT INTO `user` (`UserID`, `Password`, `Email`, `Phone`, `Role`, `Firstname`,
 (5, '$2y$10$Hs34F6Jd6iHa7K6Qzk4i3eDkHSb9rAZk0pMmmfDRC10SCmm15ar9i', 'wanyu.hong@durham.ac.uk', '1234567', 'user', 'sha', 'se', 1557712174);
 
 --
--- 转储表的索引
+-- Indexes for dumped tables
 --
 
 --
--- 表的索引 `booking`
+-- Indexes for table `booking`
 --
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`BookingID`);
 
 --
--- 表的索引 `event`
+-- Indexes for table `event`
 --
 ALTER TABLE `event`
   ADD PRIMARY KEY (`EventID`);
 
 --
--- 表的索引 `facility`
+-- Indexes for table `facility`
 --
 ALTER TABLE `facility`
   ADD PRIMARY KEY (`FacilityID`);
 
 --
--- 表的索引 `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`UserID`);
 
 --
--- 在导出的表使用AUTO_INCREMENT
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- 使用表AUTO_INCREMENT `booking`
+-- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- 使用表AUTO_INCREMENT `event`
+-- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
   MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- 使用表AUTO_INCREMENT `facility`
+-- AUTO_INCREMENT for table `facility`
 --
 ALTER TABLE `facility`
   MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- 使用表AUTO_INCREMENT `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
