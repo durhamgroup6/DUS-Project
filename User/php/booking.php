@@ -44,27 +44,63 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
         <?php
         die();
     }
+    $check_startTime_ifSharp = date('i:s', strtotime($startTime));
+    if($check_startTime_ifSharp != '00:00'){
+        ?>
+        <script>
+            window.alert("Sorry, only integral time can be booked.");
+            history.go(-1);
+        </script>
+        <?php
+        die();
+    }
+
+    $check_wDate = date('w', strtotime($startTime));
     $check_startTime = date('H:i:s', strtotime($startTime));
-    if ($check_startTime < '07:00:00') {// check if the start time picked is earlier than standard open time
-        ?>
-        <script>
-            window.alert("Sorry, you cannot pick a time earlier than standard open time(7.00 am).");
-            history.go(-1);
-        </script>
-        <?php
-        die();
-    }
-    $check_endTime = date('H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
+    if($check_wDate != 0 AND $check_wDate != 6){
+        if ($check_startTime < '07:00:00') {// check if the start time picked is earlier than standard open time
+            ?>
+            <script>
+                window.alert("Sorry, you cannot pick a time earlier than weekday open time(7.00 am).");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }
+        $check_endTime = date('H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
 //echo $check_endTime;
-    if ($check_endTime >= '22:00:01' or $check_endTime < '07:00:00') {// check if the end time picked is latter than standard close time
-        ?>
-        <script>
-            window.alert("Sorry, you cannot pick a time later than standard close time(10.00 pm).");
-            history.go(-1);
-        </script>
-        <?php
-        die();
+        if ($check_endTime >= '22:00:01' or $check_endTime < '07:00:00') {// check if the end time picked is latter than standard close time
+            ?>
+            <script>
+                window.alert("Sorry, you cannot pick a time later than weekday close time(10.00 pm).");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }
+    }else{
+        if ($check_startTime < '09:00:00') {// check if the start time picked is earlier than standard open time
+            ?>
+            <script>
+                window.alert("Sorry, you cannot pick a time earlier than weekend open time(9.00 am).");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }
+        $check_endTime = date('H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
+//echo $check_endTime;
+        if ($check_endTime >= '18:00:01' or $check_endTime < '07:00:00') {// check if the end time picked is latter than standard close time
+            ?>
+            <script>
+                window.alert("Sorry, you cannot pick a time later than weekend close time(6.00 pm).");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }
     }
+
     $facilityId = $facility['FacilityID'];// getting facilityID by facilityName
     $price = $facility['Price'];// getting the price per hour
     $totalPrice = $price * $howLong;
@@ -74,21 +110,33 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
         $totalPrice =0.9 * $totalPrice;
     }
 
-    $stmt = $pdo->query("SELECT * FROM event WHERE FacilityID='" . $facilityId . "' AND StartDate <= '" . $startTime . "' AND EndDate >= '" . $startTime . "';");// find the events that are using the same facility at the same time
-    $event_withinTime = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->query("SELECT * FROM event WHERE FacilityID='" . $facilityId . "' AND StartDate <= '" . $startTime . "' AND EndDate >= '" . $startTime . "' AND WeekDate = '" . $check_wDate . "';");// find the events that are using the same facility at the same time
+    while ($event_withinTime = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $event_startTime = date('H:i:s', strtotime($event_withinTime['StartDate']));
+        $event_endTime = date('H:i:s', strtotime($event_withinTime['EndDate']));
+        if($check_startTime >= $event_startTime AND $check_startTime < $event_endTime ){
+            ?>
+            <script>
+                window.alert("Sorry, this facility is occupied by event(s) during your booking period, please check the available time from the calendar and book again!");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }elseif($check_endTime > $event_startTime AND $check_endTime <= $event_endTime){
+            ?>
+            <script>
+                window.alert("Sorry, this facility is occupied by event(s) during your booking period, please check the available time from the calendar and book again!");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }
+    }
 
     $sql = "SELECT * FROM booking WHERE UserID='$userId' and StartTime ='$startTime' and FacilityID ='$facilityId'";
     $result = $pdo->query($sql);
     $row = $result->fetch(PDO::FETCH_ASSOC);
-    if ($event_withinTime) {
-        ?>
-        <script>
-            window.alert("Sorry, this facility is occupied by event(s) during your booking period, please check the available time from the calendar and book again!");
-            history.go(-1);
-        </script>
-        <?php
-        die();
-    } elseif ($row) {
+    if ($row) {
         ?>
         <script>
             window.alert("Sorry, you have booked this facility at this time!");
@@ -202,9 +250,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         <option value = "Tennis" > Tennis</option >
         <option value = "Athletics Track" > Athletics Track </option >
     </select ><br >
-    Start Time: <input type = "datetime-local" id = "startTime" name = "startTime"
+    Start Time (Only integral time can be picked): <input type = "datetime-local" id = "startTime" name = "startTime"
                        value = ' . $start_d . 'T' . $start_t . ' /><br >
-    How Long: <select name = "howLong" >
+    How Many Hour(s): <select name = "howLong" >
         <option value = "1" > 1</option >
         <option value = "2" > 2</option >
         <option value = "3" > 3</option >
