@@ -9,8 +9,8 @@ if (isset($_GET['date']) && $_GET['date'] != null) {
     $start_t = date("H:i:s", strtotime($date));
     $sql = "SELECT StartDate,EndDate FROM event WHERE color = 'red'";
     $result = $pdo->query($sql);
-    while ($row=$result->fetch(PDO::FETCH_NUM)){
-        if($newdate>=$row[0]&&$newdate<$row[1]){
+    while ($row = $result->fetch(PDO::FETCH_NUM)) {
+        if ($newdate >= $row[0] && $newdate < $row[1]) {
             echo "This time is unavailable for booking";
             die();
         }
@@ -45,7 +45,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     }
     $check_endTime = date('H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
 //echo $check_endTime;
-    if ($check_endTime > '22:00:01' or $check_endTime < '07:00:00') {// check if the end time picked is latter than standard close time
+    if ($check_endTime >= '22:00:01' or $check_endTime < '07:00:00') {// check if the end time picked is latter than standard close time
         ?>
         <script>
             window.alert("Sorry, you cannot pick a time later than standard close time(10.00 pm).");
@@ -66,10 +66,22 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
 
     $stmt = $pdo->query("SELECT * FROM event WHERE FacilityID='" . $facilityId . "' AND StartDate <= '" . $startTime . "' AND EndDate >= '" . $startTime . "';");// find the events that are using the same facility at the same time
     $event_withinTime = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!empty($event_withinTime)) {
+
+    $sql = "SELECT * FROM booking WHERE UserID='$userId' and StartTime ='$startTime' and FacilityID ='$facilityId'";
+    $result = $pdo->query($sql);
+    $row = $result->fetch(PDO::FETCH_ASSOC);
+    if ($event_withinTime) {
         ?>
         <script>
             window.alert("Sorry, this facility is occupied by event(s) during your booking period, please check the available time from the calendar and book again!");
+            history.go(-1);
+        </script>
+        <?php
+        die();
+    } elseif ($row) {
+        ?>
+        <script>
+            window.alert("Sorry, you have booked this facility at this time!");
             history.go(-1);
         </script>
         <?php
@@ -91,17 +103,19 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
             } else {
                 $insert_into_booking = "INSERT INTO booking (UserID, StartTime, EndTime, Price, FacilityID,color) VALUES ('" . $userId . "', '" . $startTime . "', '" . $nextHour . "', '" . $price . "', '" . $facilityId . "','$color');";
                 $pdo->exec($insert_into_booking);
+                $id = $pdo->lastInsertId();
                 $startTime = $nextHour;
-                if ($id = $pdo->lastInsertId() != null) {
+                if ($id) {
                     $firstname = $_SESSION['user']['Firstname'];
                     $email = $_SESSION['user']['Email'];
-                    $result = sendmail($firstname, $email, $price, $facilityName, $startTime, $nextHour);
+                    $result = sendmail($id, $firstname, $email, $price, $facilityName, $startTime, $nextHour);
+                    echo $result;
                     if ($result == 1) {//send email successfully
                         echo '<script>
             window.alert("book the facility successfully! The booking confirmation will send you by email,please check");
             window.location.href = "../../index.php";</script>';
                     } else {
-                       echo '<script>window.alert("book the facility unsuccessfully!");
+                        echo '<script>window.alert("book the facility unsuccessfully!");
                         window.location.href = "../../index.php";</script>';
                     }
                 }
@@ -110,36 +124,48 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     }
 }
 
-function sendmail($firstname, $email, $price, $facility, $start, $end)
+function sendmail($id, $firstname, $email, $price, $facility, $start, $end)
 {
     require '../recovery/PHPMailer.php';
-
+//Create a new PHPMailer instance
     $mail = new PHPMailer;
-
-    //$mail->SMTPDebug = 0;                               // Enable verbose debug output
-
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp.qq.com';  // Specify main and backup SMTP servers. 这里改成smtp.gmail.com
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = '649965979@qq.com';                 // SMTP username 这里改成自己的gmail邮箱，最好新注册一个，因为后期设置会导致安全性降低
-    $mail->Password = 'xnwisvsbeuxnbbdg';                           // SMTP password 这里改成对应邮箱密码
-    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 25;                                    // TCP port to connect to
-
-    $mail->setFrom('649965979@qq.com');
-    $mail->addAddress($email);     // Add a recipient 这里改成用于接收邮件的测试邮箱 // Name is optional
+//Tell PHPMailer to use SMTP
+    $mail->isSMTP();
+//Enable SMTP debugging
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+    $mail->SMTPDebug = 0;
+//Set the hostname of the mail server
+    $mail->Host = 'tls://smtp.gmail.com';
+// use
+// $mail->Host = gethostbyname('smtp.gmail.com');
+// if your network does not support SMTP over IPv6
+//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+    $mail->Port = 587;
+//Set the encryption system to use - ssl (deprecated) or tls
+    $mail->SMTPSecure = 'tls';
+//Whether to use SMTP authentication
+    $mail->SMTPAuth = true;
+//Username to use for SMTP authentication - use full email address for gmail
+    $mail->Username = "durhamteamgroup6@gmail.com";
+//Password to use for SMTP authentication
+    $mail->Password = "qygejmxrcfmswhxq";
+//Set who the message is to be sent from
+    $mail->setFrom('durhamteamgroup6@gmail.com');
+//Set an alternative reply-to address
+    $mail->addAddress($email);     // Add a recipient // Name is optional
     $mail->isHTML(true);                                  // Set email format to HTML
 
     $mail->Subject = "Durham Sport Online Booking - Booking Confirmation";
-    $mail->Body = "Dear " . $firstname . "：Your Booking Information : " . $facility . " Start Time:" . $start . " End Time:" . $end . " Total Price:" . $price;
+    $mail->Body = "Dear " . $firstname . "：Your Booking Information : BookingID:" . $id . " Facility Name:". $facility . " Start Time:" . $start . " End Time:" . $end . " Total Price:" . $price;
     $rs = $mail->send();
     return $rs;
 
-
 }
 
-if(isset($_SESSION['user'])&&$_SESSION['user']!=null){
-   echo '<!DOCTYPE html >
+if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
+    echo '<!DOCTYPE html >
 <html lang = "en" >
 <head >
     <script type = "text/javascript" >
@@ -167,7 +193,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null){
         <option value = "Athletics Track" > Athletics Track </option >
     </select ><br >
     Start Time: <input type = "datetime-local" id = "startTime" name = "startTime"
-                       value = '.$start_d . 'T' . $start_t.' /><br >
+                       value = ' . $start_d . 'T' . $start_t . ' /><br >
     How Long: <select name = "howLong" >
         <option value = "1" > 1</option >
         <option value = "2" > 2</option >
@@ -191,7 +217,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null){
 </form >
 </body >
 </html >';
-    }else{
+} else {
     echo "If you want to make a booking, please login firstly";
 }
 ?>

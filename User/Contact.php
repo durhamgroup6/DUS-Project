@@ -32,7 +32,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
                             $("#sub_btn").removeAttr("disabled").val('submit').css("cursor","pointer");
                         }else{
                             alert(msg);
-                            window.location.href="index.html";
+                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor","pointer");
                         }
                     });
                 }

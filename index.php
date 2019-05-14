@@ -42,11 +42,6 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 editable: true,
                 navLinks: true, // can click day/week names to navigate views
                 eventLimit: true, // allow "more" link when too many events
-                views: {
-                    agenda: {
-                        eventLimit: 6 // adjust to 6 only for agendaWeek/agendaDay
-                    }
-                },
                 businessHours: true,
                 slotDuration: '01:00:00',
                 eventStartEditable:false,
@@ -95,33 +90,11 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                         } else {
                             alert(msg);
                             $("#sub_btn").removeAttr("disabled").val('submit').css("cursor", "pointer");
-                            //window.location.href="index.php";
                         }
                     });
                 }
             });
-        })
-
-        $(function () {
-            $("#sub_btn").click(function () {
-                var email = $("#email").val();
-                var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //match Email
-                if (email == '' || !preg.test(email)) {
-                    $("#chkmsg").html("Please enter correct email address！");
-                } else {
-                    $("#sub_btn").attr("disabled", "disabled").val('submiting..').css("cursor", "default");
-                    $.post("User/recovery/sendmail.php", {mail: email}, function (msg) {
-                        if (msg == "noreg") {
-                            alert("This email does not register！");
-                            $("#sub_btn").removeAttr("disabled").val('submit').css("cursor", "pointer");
-                        } else {
-                            alert(msg);
-                            window.location.href="index.php";
-                        }
-                    });
-                }
-            });
-        })
+        });
 
     </script>
     <style>

@@ -1,8 +1,7 @@
 <?php
 include_once("../database/database.php");
-$token = stripslashes(trim($_GET['token']));
-$email = stripslashes(trim($_GET['email']));
-
+$token = trim($_GET['token']);
+$email = trim($_GET['email']);
 $sql = "select * from user where Email='$email'";
 
 $query = $pdo->query($sql);
@@ -13,6 +12,34 @@ if($mt==$token){
 if(time()-$row['resetpasswordtime']>24*60*60){
   echo 'This link has expired！';
 }else {
+    echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <h1>Reset Password</h1>
+    </div>
+    <div class="nav">
+    </div>
+    <form class="" action="" method="post">
+        <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits">
+            <img src="../../images/pw.png" width="22" height="22">
+            <input type="password" name="password" placeholder="Password" required="">
+        </div>
+        <div class="agileits_w3layouts_user">
+            <img src="../../images/confirm.png" width="22" height="22">
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" required="">
+        </div>
+
+        <button type="submit" name="submit" value="reset">Reset</button>
+    </form>
+</div>
+</body>
+</html>';
     if (isset($_POST['submit']) && $_POST['submit'] == 'reset') {
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $confirmPassword = filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_STRING);
@@ -48,33 +75,4 @@ if(time()-$row['resetpasswordtime']>24*60*60){
   echo 'wrong link！';
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reset Password</title>
-</head>
-<body>
-<div class="wrapper">
-    <div class="header">
-        <h1>Reset Password</h1>
-    </div>
-    <div class="nav">
-    </div>
-    <form class="" action="" method="post">
-        <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits">
-            <img src="../images/pw.png" width="22" height="22">
-            <input type="password" name="password" placeholder="Password" required="">
-        </div>
-        <div class="agileits_w3layouts_user">
-            <img src="../images/confirm.png" width="22" height="22">
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" required="">
-        </div>
-
-        <button type="submit" name="submit" value="reset">Reset</button>
-    </form>
-</div>
-</body>
-</html>
 

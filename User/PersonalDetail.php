@@ -44,7 +44,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
                     echo '<li><a href="mybooking.php">My Bookings</a></li><li class="active"><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="php/logout.php">Logout</a></li>';
                 } else {
-                    header('Location: index.php');
+                    header('Location: ../index.php');
                 }
                 ?>
             </div>
@@ -110,7 +110,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="bottom">
         <a href="../index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
         if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-            echo ' <a href="">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="php/logout.php">Logout</a>';
+            echo ' <a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="php/logout.php">Logout</a>';
         }
         ?>
         <div class="clear"></div>
