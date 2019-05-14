@@ -79,12 +79,14 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
 </div>';
 }else{
     $id = $_GET['id'];
-    $sql = "SELECT * FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.BookingID = '$id'";
+    $sql = "SELECT COUNT(*) as facilityuser,f.FacilityName,b.StartTime,b.EndTime,f.Capacity FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.StartTime = (SELECT StartTime FROM booking WHERE BookingID = '$id')";
     $result = $pdo->query($sql);
     $row = $result->fetch(PDO::FETCH_ASSOC);
     if ($row) {
-        $id = $row['BookingID'];
+        //$id = $row['BookingID'];
         $facility = $row['FacilityName'];
+        $user = $row['facilityuser'];
+        $Capacity = $row['Capacity'];
         $starttime = $row['StartTime'];
         $endtime = $row['EndTime'];
     }
@@ -92,9 +94,13 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
 <div class="fancy">
     <h2>Book Detail</h2>
     <form id="add_form" action="" method="post">
-        <input type="hidden" name="id" id="eventid" value=' . $id . '>
+     <!-- <input type="hidden" name="id" id="eventid" value=' . $id . '> --!>
         <p>Facility：<text class="input" name="facility" style="width:180px;"
                            id="facility">' . $facility . '</text>
+        </p>
+        <p>Number of bookings：<text class="input" name="studentNumber" id="studentNumber">' . $user . '</text>
+        </p>
+        <p>Capacity：<text class="input" name="CapacityNow" id="CapacityNow">' . $Capacity . '</text>
         </p>
         <p>Start Time：<text class="input datepicker" name="startdate" id="startdate">' . $starttime . '</text>
         </p>

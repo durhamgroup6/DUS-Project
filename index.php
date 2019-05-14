@@ -44,6 +44,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 eventLimit: true, // allow "more" link when too many events
                 businessHours: true,
                 slotDuration: '01:00:00',
+                minTime:'07:00:00',
+                maxTime:'22:00:00',
                 eventStartEditable:false,
                 events: {
                     url: 'User/php/get-events.php',

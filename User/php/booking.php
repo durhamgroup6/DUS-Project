@@ -189,6 +189,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 return true;
             }
         }
+  
     </script >
     <meta charset = "UTF-8" >
     <title > Book</title >
