@@ -35,7 +35,7 @@ function showfacilities()
 
 function showmybookings($userid){
     $pdo = make_database_connection();
-    $sql = "select * from booking as b left join facility as f on b.FacilityID = f.FacilityID where UserID ='$userid'";
+    $sql = "select * from booking as b left join facility as f on b.FacilityID = f.FacilityID where UserID ='$userid' order by StartTime";
     $bookings = $pdo->query($sql);
     echo '<div align="center">
                     <table style="width: 500px;text-align: center">

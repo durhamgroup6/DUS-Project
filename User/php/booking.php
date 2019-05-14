@@ -23,7 +23,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     $startTime = date('Y-m-d H:i:s', strtotime($startTime));//formatting it a bit
     $howLong = filter_input(INPUT_POST, 'howLong', FILTER_SANITIZE_STRING);
     $isMember = filter_input(INPUT_POST, 'isMember', FILTER_SANITIZE_STRING);
-
+    $start= $startTime;
     if ($facilityName == "Squash Courts") {
         $color = "yellow";
     } else if ($facilityName == "Aerobics room") {
@@ -32,6 +32,17 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
         $color = "pink";
     } else if ($facilityName == "Athletics Track") {
         $color = "orange";
+    }
+    $stmt = $pdo->query("SELECT * FROM facility WHERE FacilityName='" . $facilityName . "'");
+    $facility = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($facility['Availability']==0){
+        ?>
+        <script>
+            window.alert("Sorry, This facility is not availability now.");
+            history.go(-1);
+        </script>
+        <?php
+        die();
     }
     $check_startTime = date('H:i:s', strtotime($startTime));
     if ($check_startTime < '07:00:00') {// check if the start time picked is earlier than standard open time
@@ -54,14 +65,13 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
         <?php
         die();
     }
-    $stmt = $pdo->query("SELECT * FROM facility WHERE FacilityName='" . $facilityName . "'");
-    $facility = $stmt->fetch(PDO::FETCH_ASSOC);
     $facilityId = $facility['FacilityID'];// getting facilityID by facilityName
     $price = $facility['Price'];// getting the price per hour
     $totalPrice = $price * $howLong;
     $capacity = $facility['Capacity'];
     if ($isMember == 1) {
         $price = 0.9 * $price;
+        $totalPrice =0.9 * $totalPrice;
     }
 
     $stmt = $pdo->query("SELECT * FROM event WHERE FacilityID='" . $facilityId . "' AND StartDate <= '" . $startTime . "' AND EndDate >= '" . $startTime . "';");// find the events that are using the same facility at the same time
@@ -103,28 +113,27 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
             } else {
                 $insert_into_booking = "INSERT INTO booking (UserID, StartTime, EndTime, Price, FacilityID,color) VALUES ('" . $userId . "', '" . $startTime . "', '" . $nextHour . "', '" . $price . "', '" . $facilityId . "','$color');";
                 $pdo->exec($insert_into_booking);
-                $id = $pdo->lastInsertId();
                 $startTime = $nextHour;
-                if ($id) {
-                    $firstname = $_SESSION['user']['Firstname'];
-                    $email = $_SESSION['user']['Email'];
-                    $result = sendmail($id, $firstname, $email, $price, $facilityName, $startTime, $nextHour);
-                    echo $result;
-                    if ($result == 1) {//send email successfully
-                        echo '<script>
+            }
+        }
+        if ($pdo->lastInsertId()) {
+            $firstname = $_SESSION['user']['Firstname'];
+            $email = $_SESSION['user']['Email'];
+            $end = date('Y-m-d H:i:s', strtotime("'.$howLong.' hour", strtotime($startTime)));
+            $result = sendmail($firstname, $email, $totalPrice, $facilityName, $start, $startTime);
+            if ($result == 1) {//send email successfully
+                echo '<script>
             window.alert("book the facility successfully! The booking confirmation will send you by email,please check");
             window.location.href = "../../index.php";</script>';
-                    } else {
-                        echo '<script>window.alert("book the facility unsuccessfully!");
+            } else {
+                echo '<script>window.alert("book the facility unsuccessfully!");
                         window.location.href = "../../index.php";</script>';
-                    }
-                }
             }
         }
     }
 }
 
-function sendmail($id, $firstname, $email, $price, $facility, $start, $end)
+function sendmail($firstname, $email, $price, $facility, $start, $end)
 {
     require '../recovery/PHPMailer.php';
 //Create a new PHPMailer instance
@@ -158,7 +167,7 @@ function sendmail($id, $firstname, $email, $price, $facility, $start, $end)
     $mail->isHTML(true);                                  // Set email format to HTML
 
     $mail->Subject = "Durham Sport Online Booking - Booking Confirmation";
-    $mail->Body = "Dear " . $firstname . "：Your Booking Information : BookingID:" . $id . " Facility Name:". $facility . " Start Time:" . $start . " End Time:" . $end . " Total Price:" . $price;
+    $mail->Body = "Dear " . $firstname . "：Your Booking Information : Facility Name:". $facility . " Start Time:" . $start . " End Time:" . $end . " Total Price:" . $price;
     $rs = $mail->send();
     return $rs;
 
