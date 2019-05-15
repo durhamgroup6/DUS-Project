@@ -33,6 +33,20 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     } else if ($facilityName == "Athletics Track") {
         $color = "orange";
     }
+    $sql = "SELECT StartDate,EndDate FROM event WHERE color = 'red'";
+    $result = $pdo->query($sql);
+    while ($row = $result->fetch(PDO::FETCH_NUM)) {
+        if ($start >= $row[0] && $start < $row[1]) {
+            ?>
+            <script>
+                window.alert("Sorry, This time is unavailable for booking.");
+                history.go(-1);
+            </script>
+            <?php
+            die();
+        }
+    }
+
     $stmt = $pdo->query("SELECT * FROM facility WHERE FacilityName='" . $facilityName . "'");
     $facility = $stmt->fetch(PDO::FETCH_ASSOC);
     if($facility['Availability']==0){
