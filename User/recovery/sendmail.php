@@ -15,7 +15,7 @@ if ($row == null) {//this email does not register！
     $firstname = $row['Firstname'];
     $token = md5($uid . $row['Email'] . $row['Password']);
     $localhost = $_SERVER['HTTP_HOST'];
-    $url = "http://".$localhost."/DUS-Project5.14/User/recovery/reset.php?token=" . $token . "&email=" . $email;
+    $url = "http://".$localhost."/DUS-Project/User/recovery/reset.php?token=" . $token . "&email=" . $email;
     $time = date('Y-m-d H:i');
     $result = sendmail($firstname,$time, $email, $url);
     if ($result == 1) {//send email successfully

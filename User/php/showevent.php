@@ -79,7 +79,7 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
 </div>';
 }else{
     $id = $_GET['id'];
-    $sql = "SELECT COUNT(*) as facilityuser,f.FacilityName,b.StartTime,b.EndTime,f.Capacity FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.StartTime = (SELECT StartTime FROM booking WHERE BookingID = '$id')";
+    $sql = "SELECT COUNT(*) as facilityuser,f.FacilityName,b.StartTime,b.EndTime,f.Capacity FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.StartTime = (SELECT StartTime FROM booking WHERE BookingID = '$id')  and b.FacilityID = (SELECT FacilityID FROM booking WHERE BookingID = '$id')";
     $result = $pdo->query($sql);
     $row = $result->fetch(PDO::FETCH_ASSOC);
     if ($row) {

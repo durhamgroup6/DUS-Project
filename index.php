@@ -16,30 +16,29 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <script type="text/javascript" src="js/collection.js"></script>
     <script type="text/javascript" src="User/lib/jquery-2.1.4.min.js"></script>
     <script src="js/html5.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment-with-locales.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js"></script>
     <link href='User/calendarcss/fullcalendar.min.css' rel='stylesheet'/>
     <link href='User/calendarcss/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
-    <script src='User/lib/moment.min.js'></script>
-    <script src='User/lib/jquery.min.js'></script>
-    <script src='User/lib/fullcalendar.min.js'></script>
+<!--    <script src='User/lib/moment.min.js'></script>-->
+<!--    <script src='User/lib/jquery.min.js'></script>-->
+<!--    <script src='User/lib/fullcalendar.min.js'></script>-->
     <script type="text/javascript" src="User/lib/jquery.fancybox.pack.js?v=2.1.5"></script>
     <link rel="stylesheet" type="text/css" href="User/calendarcss/jquery.fancybox.css?v=2.1.5" media="screen"/>
     <script>
 
         $(document).ready(function () {
-            var date = new Date();
-            var month = date.getMonth() + 1;
-            var defaultDate = date.getFullYear() + '-' + month + '-' + date.getDate();
+
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listYear'
                 },
-                defaultDate: defaultDate,
+                defaultView: 'month',
                 selectable: true,
                 selectHelper: true,
-                allDay: false,
-                editable: true,
                 navLinks: true, // can click day/week names to navigate views
                 eventLimit: true, // allow "more" link when too many events
                 businessHours: true,
@@ -47,11 +46,18 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 minTime:'07:00:00',
                 maxTime:'22:00:00',
                 eventStartEditable:false,
-                events: {
-                    url: 'User/php/get-events.php',
-                    error: function () {
-                        $('#script-warning').show();
+                events:{url:'User/php/get-events.php'},
+                eventRender: function(event, element, view) {
+                    var theDate = event.start
+                    var endDate = new Date(event.dowend);
+                    var startDate = new Date(event.dowstart);
+                    if (theDate >= endDate) {
+                        return false;
                     }
+                    if (theDate <= startDate) {
+                        return false;
+                    }
+
                 },
                 loading: function (bool) {
                     $('#loading').toggle(bool);

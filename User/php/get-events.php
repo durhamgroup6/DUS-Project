@@ -8,26 +8,32 @@ $result_book = $pdo->query($sql_book);
 while ($row = $result_event->fetch(PDO::FETCH_ASSOC)) {
 //    $allday = $row['allday'];
 //    $is_allday = $allday==1?true:false;
-    $data[] = array(
-        'id' => $row['EventID'],//event id
-        'title' => $row['EventName'],//event name
-//        'allday' => $is_allday, //is all day event
-        'start' => $row['StartDate'],//event start date time
-        'end' => $row['EndDate'],//event start date time
-        'color' => $row['color']
-    );
+    $start_d = date("Y-m-d", strtotime($row['StartDate']));
+    $start_t = date("H:i:s", strtotime($row['StartDate']));
+    $end_d = date("Y-m-d", strtotime($row['EndDate']));
+    $end_t = date("H:i:s", strtotime($row['EndDate']));
+    if($row['WeekDate']!=null) {
+        $data[] = array(
+            'id' => $row['EventID'],//event id
+            'title' => $row['EventName'],//event name
+            'start' =>$start_t,//event start date time
+            'end' => $start_t,//event start date time
+            'color' => $row['color'],
+            'dow' => [$row['WeekDate']],
+            'dowstart' => $start_d,
+            'dowend' => $end_d
+        );
+    }else{
+        $data[] = array(
+            'id' => $row['EventID'],//event id
+            'title' => $row['EventName'],//event name
+            'start' => $row['StartDate'],//event start date time
+            'end' => $row['EndDate'],//event start date time
+            'color' => $row['color']
+        );
+    }
 }
 while ($row = $result_book->fetch(PDO::FETCH_ASSOC)) {
-//    for ($i = 0; $i < count($row)-1; $i++) {
-//            if ($row[$i]['FacilityName'] == $row[$j]['FacilityName'] && $row[$i]['StartTime'] != $row[$j]['StartTime']) {
-//                $data[] = array(
-//                    'id' => $row[$i]['BookingID'],//event id
-//                    'title' => $row[$i]['FacilityName'],//event name
-//                    'start' => $row[$i]['StartTime'],//event start date time
-//                    'end' => $row[$i]['EndTime'],//event start date time
-//                    'color' => $row[$i]['color']
-//                );
-//        }
     $data[] = array(
         'id' => $row['BookingID'],//event id
         'title' => $row['FacilityName'],//event name
