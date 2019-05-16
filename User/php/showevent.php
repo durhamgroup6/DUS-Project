@@ -1,5 +1,6 @@
 <?php
 session_start();
+$usersessionid=$_SESSION['user']['UserID'];
 include_once('../database/database.php');
 $id = $_GET['id'];
 $sql = "SELECT * FROM event as e LEFT JOIN user as u on e.TrainerID = u.UserID left JOIN facility as f ON e.FacilityID = f.FacilityID WHERE e.EventID = '$id'";
@@ -77,24 +78,27 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
         </p>
     </form>
 </div>';
-}else{
+}else {
     $id = $_GET['id'];
-    $sql = "SELECT COUNT(*) as facilityuser,f.FacilityName,b.StartTime,b.EndTime,f.Capacity FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.StartTime = (SELECT StartTime FROM booking WHERE BookingID = '$id')  and b.FacilityID = (SELECT FacilityID FROM booking WHERE BookingID = '$id')";
+    $sql = "SELECT COUNT(*) as facilityuser,f.FacilityName,b.Price,b.StartTime,b.EndTime,f.Capacity,b.UserID,b.BookingID FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.StartTime = (SELECT StartTime FROM booking WHERE BookingID = '$id')  and b.FacilityID = (SELECT FacilityID FROM booking WHERE BookingID = '$id')";
     $result = $pdo->query($sql);
     $row = $result->fetch(PDO::FETCH_ASSOC);
     if ($row) {
-        //$id = $row['BookingID'];
+        $id = $row['BookingID'];
         $facility = $row['FacilityName'];
+        $userid = $row['UserID'];
         $user = $row['facilityuser'];
         $Capacity = $row['Capacity'];
         $starttime = $row['StartTime'];
         $endtime = $row['EndTime'];
+        $price = $row['Price'];
     }
-    echo '<script src="http://malsup.github.io/jquery.form.js" type="text/javascript"></script>
+    if ($usersessionid != $userid) {
+        echo '<script src="http://malsup.github.io/jquery.form.js" type="text/javascript"></script>
 <div class="fancy">
-    <h2>Book Detail</h2>
+    <h2>Book Detail----Facility</h2>
     <form id="add_form" action="" method="post">
-     <!-- <input type="hidden" name="id" id="eventid" value=' . $id . '> --!>
+        <input type="hidden" name="id" id="eventid" value=' . $id . '>
         <p>Facility：<text class="input" name="facility" style="width:180px;"
                            id="facility">' . $facility . '</text>
         </p>
@@ -108,6 +112,25 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
         </p>
     </form>
 </div>';
+    }else{
+        echo '<script src="http://malsup.github.io/jquery.form.js" type="text/javascript"></script>
+<div class="fancy">
+    <h2>Book Detail--Yours</h2>
+    <form id="add_form" action="" method="post">
+        <p>Booking ID:<text name="id" id="eventid" style="width:250px ">' . $id . '</text></p>
+        <p>Facility：<text class="input" name="facility" style="width:180px;"
+                           id="facility">' . $facility . '</text>
+        </p>
+        <p>Price：<text class="input" name="price" id="price">' . $price . '</text>
+        </p>
+        <p>Start Time：<text class="input datepicker" name="startdate" id="startdate">' . $starttime . '</text>
+        </p>
+        <p>End Time：<text class="input datepicker" name="enddate" id="enddate">' . $endtime . '</text>
+        </p>
+    </form>
+</div>';
+
+    }
 }
 
 ?>

@@ -43,9 +43,9 @@ if(empty($hash)){
         $_SESSION["user"] = $user;
         //print_r($_SESSION);
         if ($_SESSION["user"]["Role"] == "admin") {
-            header('Location: index_foradmin.php');
+            header('Location: ../../Admin/index.php');
         } else {
-            echo "<script>alert('login success！'); window.location.href='../../index.php';</script>";
+            echo "<script>window.location.href='../../index.php';</script>";
         }
 
     }else{

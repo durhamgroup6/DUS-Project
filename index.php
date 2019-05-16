@@ -273,7 +273,6 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="content">
         <header id="homeheader">
             <h2>
-
                 <div class="banner-form">
                     <form class="search_form" action="" method="post">
                         <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search"

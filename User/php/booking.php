@@ -263,9 +263,10 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         <option value = "Aerobics room" > Aerobics room </option >
         <option value = "Tennis" > Tennis</option >
         <option value = "Athletics Track" > Athletics Track </option >
-    </select ><br >
-    Start Time (Only integral time can be picked): <input type = "datetime-local" id = "startTime" name = "startTime"
-                       value = ' . $start_d . 'T' . $start_t . ' /><br >
+    </select ><br />
+    Start Time (Only complete hour can be picked e.g: 09:00 or 12:00 etc.): <br/>
+    <input type = "datetime-local" id = "startTime" name = "startTime"
+                       value = ' . $start_d . 'T' . $start_t . ' /><br />
     How Many Hour(s): <select name = "howLong" >
         <option value = "1" > 1</option >
         <option value = "2" > 2</option >
@@ -283,7 +284,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         <option value = "14" > 14</option >
         <option value = "15" > 15</option >
     </select ><br >
-    Are You a Member ? <input type = "radio" name = "isMember" value = "1" checked > Yes
+    Are you a student/staff in Durham University? <br/>
+    <input type = "radio" name = "isMember" value = "1" checked > Yes
     <input type = "radio" name = "isMember" value = "0" > NO<br >
     <input type = "submit" name = "submit" value = "Book!" >
 </form >
