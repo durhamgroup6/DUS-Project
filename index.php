@@ -10,7 +10,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 <head>
     <title>TeamDurham : Facilities</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/collection.js"></script>
@@ -26,6 +28,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 <!--    <script src='User/lib/fullcalendar.min.js'></script>-->
     <script type="text/javascript" src="User/lib/jquery.fancybox.pack.js?v=2.1.5"></script>
     <link rel="stylesheet" type="text/css" href="User/calendarcss/jquery.fancybox.css?v=2.1.5" media="screen"/>
+    <link rel="bookmark"  type="image/x-icon"  href="images/favicon.ico"/>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <script>
 
         $(document).ready(function () {
@@ -217,7 +221,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="small-dialog1" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Sign Up</h3>
         <div class="agileits_modal_body">
-            <form action="User/php/register_check.php" method="post">
+            <br action="User/php/register_check.php" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="images/user.png" width="22" height="22">
                     <input type="text" name="firstname" placeholder="First Name" required="">
@@ -226,26 +230,27 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <img src="images/user.png" width="22" height="22">
                     <input type="text" name="lastname" placeholder="Last Name" required="">
                 </div>
-
+               <br></br>
                 <div class="agileits_w3layouts_user">
-                    <img src="images/phone.png" width="22" height="22">
+                    <img src="images/ev.png" width="22" height="22">
                     <input type="text" name="email" placeholder="Email Address" required="">
                 </div>
-
+                <br></br>
                 <div class="agileits_w3layouts_user">
                     <img src="images/phone.png" width="22" height="22">
                     <input type="text" name="phone" placeholder="Phone Number" required="">
                 </div>
-
-                <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits">
+            <br></br>
+                <div class="agileits_w3layouts_user">
                     <img src="images/pw.png" width="22" height="22">
                     <input type="password" name="password" placeholder="Password" required="">
                 </div>
+            <br></br>
                 <div class="agileits_w3layouts_user">
                     <img src="images/confirm.png" width="22" height="22">
                     <input type="password" name="confirmPassword" placeholder="Confirm Password" required="">
                 </div>
-
+            <br></br>
                 <input type="submit" value="Register">
             </form>
             <h5>Already a member <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></h5>
@@ -273,6 +278,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="content">
         <header id="homeheader">
             <h2>
+
                 <div class="banner-form">
                     <form class="search_form" action="" method="post">
                         <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search"
@@ -320,9 +326,13 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <h2 class="introhead">Events</h2>
                 </header>
                 <div class="clear"></div>
-                <div class="col">
+                <br class="col">
                     <h3>flexible canlendar</h3>
-                    <p>If you are interested in joining the classes/sessions <a>Contact Trainer for Sign Up</a></p>
+                    <p>If you are interested in joining the classes/sessions, Please contact trainers for sign up</p>
+                  <br></br>
+                    <h4>Green: Events</h4>
+                    <h5>Red: Block Booking</h5>
+                    <h6>Other Color: Facility Booking</h6>
                 </div>
                 <div id="calendarbackground">
                     <div id='calendar'></div>
@@ -347,6 +357,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     </div>
     <div id="credits">
         2019 &copy; All Rights Reserved. <a>Group6</a> Durham University
+        <p>original data from: <a href=https://www.teamdurham.com>https://www.teamdurham.com</a></p>
     </div>
 </footer>
 

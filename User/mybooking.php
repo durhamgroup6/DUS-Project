@@ -18,6 +18,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <script type="text/javascript" src="../js/collection.js"></script>
     <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
     <script src="../js/html5.js"></script>
+    <link rel="bookmark"  type="image/x-icon"  href="../images/favicon.ico"/>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <script>
         $(function () {
             $("#sub_btn").click(function () {
@@ -114,6 +116,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     </div>
     <div id="credits">
         2019 &copy; All Rights Reserved. <a>Group6</a> Durham University
+        <p>original data from: <a href=https://www.teamdurham.com>https://www.teamdurham.com</a></p>
     </div>
 </footer>
 

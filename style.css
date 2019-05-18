@@ -41,7 +41,10 @@ nav, section, header, footer, article {display:block;}
 #content p {font-size:1.2em; line-height:1.8em;}
 #introcol h3 {font-size:2.0em;  color:#641b91; text-shadow:#fff 1px 1px 1px; text-transform:uppercase; margin-bottom:15px;}
 #fourcols .col {width:195px; float:left; padding:20px 22px; margin-bottom:15px;}
-#fourcols h3 { font-size:1.6em; color:#1c5f75; margin-bottom:15px;}
+#fourcols h3 { font-size:1.6em; color: #6c263c; margin-bottom:15px;}
+#fourcols h4 { font-size:1.2em; color: #0f6c0a; margin-bottom:10px;}
+#fourcols h5 { font-size:1.2em; color: #d51e23; margin-bottom:10px;}
+#fourcols h6 { font-size:1.2em; color: #11256c; margin-bottom:10px;}
 #content a {text-decoration:none;}
 a:hover, #content a:hover {color:#641b91; text-decoration:underline!important;}
 footer {background:#504842 url(images/bottombg.png) repeat-x; color:#666;}
@@ -490,8 +493,12 @@ button::-moz-focus-inner {
 /*-- pop-up --*/
 .agileits_w3layouts_user{
  position:relative;
+ font-size: 14px;
+ color: #641b91;
+ font-weight: bolder;
 
 }
+.inputbo
 .agileits_w3layouts_user i{
  position: absolute;
  top: 0;

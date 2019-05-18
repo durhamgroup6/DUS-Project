@@ -17,6 +17,8 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     <script type="text/javascript" src="../js/collection.js"></script>
     <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
     <script src="../js/html5.js"></script>
+    <link rel="bookmark"  type="image/x-icon"  href="../images/favicon.ico"/>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <script>
         $(function(){
             $("#sub_btn").click(function(){
@@ -186,17 +188,16 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
                     <h2 class="introhead">Contact Us</h2>
                 </header>
                 <div class="clear"></div>
-                <div>
-                    <p>For prices, bookings, membership enquiries or general enquiries, please contact us:</p>
+                <div class="box3">
+                    <img src="../images/Contact-Us.jpg">
+                    <h2>For prices, bookings, membership enquiries or general enquiries please contact:</h2>
 
                     <p>Tel: 0191 334 2178</p>
 
-                    <p>  For multi-bookings or events please contact:</p>
+                    <h2>For multi-bookings or events please contact:</h2>
 
                     <p>     Tel: 0191 334 7216</p>
-
-                    <p>   Email: teamdurham.bookings@durham.ac.uk</p>
-
+                    <br /><br />
                     <p>   Durham University Sport</p>
                     <p>  The Graham Sports Centre,</p>
                     <p>  Durham University</p>
@@ -205,7 +206,58 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 
                     <h2>Parking</h2>
                     <p>Parking is available onsite at the main car park.</p>
+                    <br />
+                    <a> teamdurham.bookings@durham.ac.uk </a>
                 </div>
+                <style>
+                    .box3{
+                        margin: 20px auto;
+                        width: 800px;
+                        min-height: 310px;
+                        padding: 10px;
+                        position:relative;
+                        background: -webkit-gradient(linear, 0% 20%, 0% 92%, from(#fff), to(#f3f3f3), color-stop(.1,#fff));
+                        border: 1px solid #ccc;
+                        -webkit-border-radius: 60px 5px;
+                        -webkit-box-shadow: 0px 0px 35px rgba(0, 0, 0, 0.1) inset;
+                    }
+                    .box p{
+                        font-size: 10px;
+                    }
+                    .box3:before{
+                        content: '';
+                        width: 50px;
+                        height: 50px;
+                        top:0; right:0;
+                        position:absolute;
+                        display: inline-block;
+                        z-index:-1;
+                        -webkit-box-shadow: 10px -10px 8px rgba(0, 0, 0, 0.2);
+                        -webkit-transform: rotate(2deg)
+                        translate(-14px,20px)
+                        skew(-20deg);
+                    }
+
+                    .box3 img {
+                        width: 20%;
+                        margin-top: 15px;
+                    }
+
+                    p{
+                        margin-top: 15px;
+                        text-align: justify;
+                    }
+
+                    a{
+                        text-decoration: none;
+                        color: A8284E !important;
+                    }
+
+                    a:hover{
+                        text-decoration: underline;
+                        color: #d39bc3 !important ;
+                    }
+                    </style>
                 <div class="clear"></div>
             </section>
         </section>
@@ -226,6 +278,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
     </div>
     <div id="credits">
         2019 &copy; All Rights Reserved. <a>Group6</a> Durham University
+        <p>original data from: <a href=https://www.teamdurham.com>https://www.teamdurham.com</a></p>
     </div>
 </footer>
 

@@ -17,6 +17,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <script type="text/javascript" src="../js/collection.js"></script>
     <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
     <script src="../js/html5.js"></script>
+    <link rel="bookmark"  type="image/x-icon"  href="../images/favicon.ico"/>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <script>
 
     </script>
@@ -74,29 +76,36 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 
                 <div class="agileits_w3layouts_user">
                     Email:
-                    <input type="text" name="email" value=<?php echo $_SESSION['user']['Email']?> readonly>
-                </div>
+                    <input type="text" name="email" value=<?php echo $_SESSION['user']['Email']?> readonly style=" border-radius:3px; border:0;outline: none;background-color: rgba(0, 0, 0, 0);">
+                </div></div>
+                <br /><br />
 
                 <div class="agileits_w3layouts_user">
                     Firstname:
-                    <input type="text" name="firstname" value=<?php echo $_SESSION['user']['Firstname']?> required="">
+                    <input type="text" name="firstname" value=<?php echo $_SESSION['user']['Firstname']?> required="" style=" border-radius:3px;outline: none;background-color: rgba(0, 0, 0, 0);width:100px;height:15px;line-height:30px;">
                 </div>
-                <div class="agileits_w3layouts_user">
-                    Lastname:
-                    <input type="text" name="lastname" value=<?php echo $_SESSION['user']['Lastname']?> required="">
-                </div>
+                <br /><br />
 
                 <div class="agileits_w3layouts_user">
-                    Phone:
-                    <input type="text" name="phone" value=<?php echo $_SESSION['user']['Phone']?> required="">
+                    Lastname:
+                    <input type="text" name="lastname" value=<?php echo $_SESSION['user']['Lastname']?> required="" style="  border-radius:3px; outline: none;background-color: rgba(0, 0, 0, 0);width:100px;height:15px;line-height:30px;">
                 </div>
+                <br /><br />
+
+                <div class="agileits_w3layouts_user">
+                    Cellphone:
+                    <input type="text" name="phone" value=<?php echo $_SESSION['user']['Phone']?> required="" style=" border-radius:3px; outline: none;background-color: rgba(0, 0, 0, 0);width:100px;height:15px;line-height:30px;">
+                </div>
+                <br /><br />
 
                 <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits">
                     Password:
-                    <input type="password" name="password" value=<?php echo $_SESSION['user']['Password']?>>
+                    <input type="password" name="password" value=<?php echo $_SESSION['user']['Password']?> style=" border-radius:3px; outline: none;background-color: rgba(0, 0, 0, 0);width:100px;height:15px;line-height:30px;">
                 </div>
+                <br /><br />
 
-                <input type="submit" name="submit" value="update">
+                <input type="submit" name="submit" value="update" style="color: white; background:#914272;border-radius:3px; width:100px;height:30px;">
+                <br /><br />
             </form>
         </div>
         <div class="clear"></div>
@@ -117,6 +126,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     </div>
     <div id="credits">
         2019 &copy; All Rights Reserved. <a>Group6</a> Durham University
+        <p>original data from: <a href=https://www.teamdurham.com>https://www.teamdurham.com</a></p>
     </div>
 </footer>
 
