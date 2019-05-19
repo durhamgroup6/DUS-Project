@@ -204,7 +204,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="small-dialog" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Login</h3>
         <div class="agileits_modal_body">
-            <form action="php/login_check.php" method="post">
+            <form action="User/php/login_check.php" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="images/ev.png" width="22" height="22">
                     <input type="text" name="Email" placeholder="Email Address" required="">
