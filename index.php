@@ -230,7 +230,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         <div class="agileits_modal_body">
             <form action="#" method="post">
                 <div class="agileits_w3layouts_user">
-                    <img src="images/phone.png" width="22" height="22">
+                    <img src="images/ev.png" width="22" height="22">
                     <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span id="chkmsg"></span>
                 </div>
                 <input type="button" id ="sub_btn" value="Reset">
@@ -242,7 +242,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="small-dialog1" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Sign Up</h3>
         <div class="agileits_modal_body">
-            <form action="php/register_check.php" method="post">
+            <br action="User/php/register_check.php" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="images/user.png" width="22" height="22">
                     <input type="text" name="firstname" placeholder="First Name" required="">
@@ -251,17 +251,16 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <img src="images/user.png" width="22" height="22">
                     <input type="text" name="lastname" placeholder="Last Name" required="">
                 </div>
-
+            <div style="margin-top: 10px"></div>
                 <div class="agileits_w3layouts_user">
-                    <img src="images/phone.png" width="22" height="22">
+                    <img src="images/ev.png" width="22" height="22">
                     <input type="text" name="email" placeholder="Email Address" required="">
                 </div>
-
+            <div style="margin-top: 10px"></div>
                 <div class="agileits_w3layouts_user">
                     <img src="images/phone.png" width="22" height="22">
                     <input type="text" name="phone" placeholder="Phone Number" required="">
                 </div>
-
                 <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits">
                     <img src="images/pw.png" width="22" height="22">
                     <input type="password" name="password" placeholder="Password" required="">
