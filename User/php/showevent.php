@@ -1,6 +1,5 @@
 <?php
 session_start();
-$usersessionid=$_SESSION['user']['UserID'];
 include_once('../database/database.php');
 $id = $_GET['id'];
 $sql = "SELECT * FROM event as e LEFT JOIN user as u on e.TrainerID = u.UserID left JOIN facility as f ON e.FacilityID = f.FacilityID WHERE e.EventID = '$id'";
@@ -79,6 +78,8 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
     </form>
 </div>';
 }else {
+    if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
+        $usersessionid = $_SESSION['user']['UserID'];
     $id = $_GET['id'];
     $sql = "SELECT COUNT(*) as facilityuser,f.FacilityName,b.Price,b.StartTime,b.EndTime,f.Capacity,b.UserID,b.BookingID FROM booking as b LEFT JOIN facility as f ON b.FacilityID = f.FacilityID WHERE b.StartTime = (SELECT StartTime FROM booking WHERE BookingID = '$id')  and b.FacilityID = (SELECT FacilityID FROM booking WHERE BookingID = '$id')";
     $result = $pdo->query($sql);
@@ -129,8 +130,10 @@ if (isset($_GET['color']) && $_GET['color'] == "green") {
         </p>
     </form>
 </div>';
-
-    }
+        }
+    }else{
+        echo "Please login firstly";
+        }
 }
 
 ?>

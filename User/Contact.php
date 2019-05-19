@@ -10,13 +10,23 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 <head>
     <meta charset="UTF-8"/>
     <title>TeamDurham : Facilities</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1" >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <link href="../style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/collection.js"></script>
     <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
     <script src="../js/html5.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link rel="bookmark"  type="image/x-icon"  href="../images/favicon.ico"/>
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <script>
@@ -47,33 +57,64 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         DD_belatedPNG.fix('*');
     </script>
     <![endif]-->
+    <style>
+        .box3 p{
+            text-align: justify;
+        }
+        .box3 h2{
+           font-size: 1.2em;
+        }
 
+        .box3 a{
+            text-decoration: none;
+            color: #A8284E !important;
+        }
+
+        .box3 a:hover{
+            text-decoration: underline;
+            color: #d39bc3 !important ;
+        }
+
+        @media screen and (max-device-width: 375px) {
+            body {
+                background: url(../images/topbg.png) repeat-x;
+                background-size: auto 16%;
+                font-family: 'DroidSansRegular', Verdana, Geneva, sans-serif;
+                color: #5a5143;
+            }
+        }
+    </style>
 </head>
 
 <body>
 <div id="wrap">
 
-    <nav id="mainnav">
-
-        <h1 id="textlogo">
-            Durham University<span>Sport</span>
-        </h1>
-        <ul>
-            <div class="w3_agile_login">
-                <li><a href="../index.php">Home</a></li>
-                <li class="active"><a href="Contact.php">Contact</a></li>
-                <?php
-                if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                    echo '<li><a href="mybooking.php">My Bookings</a></li><li><a href="PersonalDetail.php">Personal Detail</a></li><li><a href="php/logout.php">Logout</a></li>';
-                }else{
-                    echo '<li><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
-                }
-                ?>
+    <div class="container" style="">
+        <nav class="navbar navbar-expand-md navbar-light bg-faded">
+            <a class="navbar-brand" href="#">
+                <h1 id="textlogo">
+                    Durham University<span>Sport</span>
+                </h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar"
+                    aria-expanded="false">
+                &#9776;
+            </button>
+            <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a href="../index.php">Home</a></li>
+                    <li class="nav-item active"><a href="Contact.php">Contact</a></li>
+                    <?php
+                    if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
+                        echo '<li class="nav-item"><a href="mybooking.php">My Bookings</a></li><li class="nav-item"><a href="PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="php/logout.php">Logout</a></li>';
+                    } else {
+                        echo '<li class="nav-item"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
+                    }
+                    ?>
+                </ul>
             </div>
-
-        </ul>
-    </nav>
-
+        </nav>
+    </div>
 
     <!-- pop-up-box -->
     <div id="small-dialog" class="mfp-hide w3ls_small_dialog wthree_pop">
@@ -171,99 +212,41 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         });
     </script>
 
-    <section id="content">
-        <header id="homeheader">
-            <h2>
+    <div class="container" style="">
+        <div id="homeheader">
 
-                <div class="banner-form">
-                        <span></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </h2>
-        </header>
-        <section id="page">
-            <section id="fourcols">
-                <header class="mainheading">
-                    <h2 class="introhead">Contact Us</h2>
-                </header>
-                <div class="clear"></div>
-                <div class="box3">
-                    <img src="../images/Contact-Us.jpg">
-                    <h2>For prices, bookings, membership enquiries or general enquiries please contact:</h2>
+        </div>
+    </div>
 
-                    <p>Tel: 0191 334 2178</p>
+    <div class="container" style="">
+        <div class="mainheading">
+            <h2 class="introhead">Contact Us</h2>
+        </div>
+        <div>
+            <div class="box3">
+                <img src="../images/Contact-Us.jpg">
+                <h2>For prices, bookings, membership enquiries or general enquiries please contact:</h2>
 
-                    <h2>For multi-bookings or events please contact:</h2>
+                <p>Tel: 0191 334 2178</p>
 
-                    <p>     Tel: 0191 334 7216</p>
-                    <br /><br />
-                    <p>   Durham University Sport</p>
-                    <p>  The Graham Sports Centre,</p>
-                    <p>  Durham University</p>
-                    <p> Stockton Road</p>
-                    <p>  DH1 3SE</p>
+                <h2>For multi-bookings or events please contact:</h2>
 
-                    <h2>Parking</h2>
-                    <p>Parking is available onsite at the main car park.</p>
-                    <br />
-                    <a> teamdurham.bookings@durham.ac.uk </a>
-                </div>
-                <style>
-                    .box3{
-                        margin: 20px auto;
-                        width: 800px;
-                        min-height: 310px;
-                        padding: 10px;
-                        position:relative;
-                        background: -webkit-gradient(linear, 0% 20%, 0% 92%, from(#fff), to(#f3f3f3), color-stop(.1,#fff));
-                        border: 1px solid #ccc;
-                        -webkit-border-radius: 60px 5px;
-                        -webkit-box-shadow: 0px 0px 35px rgba(0, 0, 0, 0.1) inset;
-                    }
-                    .box p{
-                        font-size: 10px;
-                    }
-                    .box3:before{
-                        content: '';
-                        width: 50px;
-                        height: 50px;
-                        top:0; right:0;
-                        position:absolute;
-                        display: inline-block;
-                        z-index:-1;
-                        -webkit-box-shadow: 10px -10px 8px rgba(0, 0, 0, 0.2);
-                        -webkit-transform: rotate(2deg)
-                        translate(-14px,20px)
-                        skew(-20deg);
-                    }
+                <p>     Tel: 0191 334 7216</p>
+                <br /><br />
+                <p>   Durham University Sport</p>
+                <p>  The Graham Sports Centre,</p>
+                <p>  Durham University</p>
+                <p> Stockton Road</p>
+                <p>  DH1 3SE</p>
 
-                    .box3 img {
-                        width: 20%;
-                        margin-top: 15px;
-                    }
+                <h2>Parking</h2>
+                <p>Parking is available onsite at the main car park.</p>
+                <br />
+                <a> teamdurham.bookings@durham.ac.uk </a>
+            </div>
+        </div>
 
-                    p{
-                        margin-top: 15px;
-                        text-align: justify;
-                    }
-
-                    a{
-                        text-decoration: none;
-                        color: A8284E !important;
-                    }
-
-                    a:hover{
-                        text-decoration: underline;
-                        color: #d39bc3 !important ;
-                    }
-                    </style>
-                <div class="clear"></div>
-            </section>
-        </section>
-    </section>
 </div>
-
 <footer>
 
     <div id="bottom">
