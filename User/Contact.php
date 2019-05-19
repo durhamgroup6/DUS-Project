@@ -146,7 +146,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
         <div class="agileits_modal_body">
             <form action="#" method="post">
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/phone.png" width="22" height="22">
+                    <img src="../images/ev.png" width="22" height="22">
                     <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span id="chkmsg"></span>
                 </div>
 
@@ -168,12 +168,12 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
                     <img src="../images/user.png" width="22" height="22">
                     <input type="text" name="lastname" placeholder="Last Name" required="">
                 </div>
-
+                <div style="margin-top: 10px"></div>
                 <div class="agileits_w3layouts_user">
-                    <img src="../images/phone.png" width="22" height="22">
+                    <img src="../images/ev.png" width="22" height="22">
                     <input type="text" name="email" placeholder="Email Address" required="">
                 </div>
-
+                <div style="margin-top: 10px"></div>
                 <div class="agileits_w3layouts_user">
                     <img src="../images/phone.png" width="22" height="22">
                     <input type="text" name="phone" placeholder="Phone Number" required="">
