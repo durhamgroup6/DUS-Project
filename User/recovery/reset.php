@@ -40,7 +40,7 @@ if ($row) {
     </script>
     <script src="../../js/belatedPNG.js"></script>
     <script>
-        DD_belatedPNG.fix(\'*\');
+        DD_belatedPNG.fix("*");
     </script>
 </head>
 
@@ -173,6 +173,7 @@ if ($row) {
             <h2 class="introhead">Reset Password</h2>
         </div>
         <div align="center">
+        <div class="agileits_modal_body">
     <form class="" action = "" method = "post" >
         <div class="agileits_w3layouts_user agileits_w3layouts_user_agileits" >
             <img src = "../../images/pw.png" width = "22" height = "22" >
@@ -183,8 +184,9 @@ if ($row) {
             <input type = "password" name = "confirmPassword" placeholder = "Confirm Password" required = "" >
         </div >
 
-        <button type = "submit" name = "submit" value = "reset" > Reset</button >
+        <input type = "submit" name = "submit" value = "reset" >
     </form >
+    </div>
     </div>
     </div>
 </div >
@@ -216,7 +218,7 @@ if ($row) {
                 $password_hash = password_hash($password_hash, PASSWORD_DEFAULT);
                 $sql = "Update user set Password = '$password_hash' where Email = '$email'";
                 $pdo->query($sql);
-                echo ' < script>alert("reset success!"); window . location . href = "../../index.php";</script > ';
+                echo ' <script>alert("reset success!"); window . location . href = "../../index.php";</script > ';
             }
         }
     } else {

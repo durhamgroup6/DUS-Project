@@ -233,7 +233,6 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <img src="images/phone.png" width="22" height="22">
                     <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span id="chkmsg"></span>
                 </div>
-
                 <input type="button" id ="sub_btn" value="Reset">
             </form>
             <h5>Back to <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></h5>
