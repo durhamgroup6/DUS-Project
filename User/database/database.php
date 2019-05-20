@@ -35,7 +35,7 @@ function showfacilities()
 
 function showmybookings($userid){
     $pdo = make_database_connection();
-    $sql = "select * from booking as b left join facility as f on b.FacilityID = f.FacilityID where UserID ='$userid' order by StartTime";
+    $sql = "select * from bookingdates as bb left join booking as b on bb.BookingID = b.BookingID left join facility as f on b.FacilityID = f.FacilityID where b.UserID ='$userid' order by bb.StartTime";
     $bookings = $pdo->query($sql);
     echo '<div align="center">
                     <table style="width:100%;text-align: center">
@@ -43,12 +43,19 @@ function showmybookings($userid){
                     <th style="font-size: 1.4em">Facility</th>
                     <th style="font-size: 1.4em">Start Time</th>
                     <th style="font-size: 1.4em">End Time</th>
+                    <th style="font-size: 1.4em">Status</th>
                     </tr>';
     while ($row = $bookings->fetch(PDO::FETCH_ASSOC)) {
         echo '<tr>
                     <td style="font-size: 1.0em">'.$row['FacilityName'].'</td>
                     <td style="font-size: 1.0em">'.$row['StartTime'].'</td>
-                    <td style="font-size: 1.0em">'.$row['EndTime'].'</td>
+                    <td style="font-size: 1.0em">'.$row['EndTime'].'</td>';
+                    if($row['is_cancel']==0) {
+                        $status = "Booking";
+                    }else{
+                        $status = "Cancel";
+                    }
+                   echo '<td style="font-size: 1.0em">'.$status.'</td>
                     </tr>';
     }
     echo '</table></div>';

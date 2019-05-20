@@ -69,9 +69,12 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <li class="nav-item"><a href="Contact.php">Contact</a></li>
                     <?php
                     if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
+                        echo '<style>#exCollapsingNavbar{
+                                        margin-left: 0%;
+                                                }</style>';
                         echo '<li class="nav-item"><a href="mybooking.php">My Bookings</a></li><li class="nav-item active"><a href="PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="php/logout.php">Logout</a></li>';
                     } else {
-                        header('Location: index.php');
+                        header('Location: ../index.php');
                     }
                     ?>
                 </ul>

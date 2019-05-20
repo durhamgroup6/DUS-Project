@@ -62,7 +62,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 eventStartEditable: false,
                 events: {url: 'User/php/get-events.php'},
                 eventRender: function (event, element, view) {
-                    var theDate = event.start
+                    var theDate = event.start;
                     var endDate = new Date(event.dowend);
                     var startDate = new Date(event.dowstart);
                     if (theDate >= endDate) {
@@ -79,7 +79,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                 eventClick: function (calEvent, jsEvent, view) {
                     $.fancybox({
                         'type': 'ajax',
-                        'href': 'User/php/showevent.php?id=' + calEvent.id + '&color=' + calEvent.color
+                        'href': 'User/php/showevent.php?id=' + calEvent.id + '&type=' + calEvent.type
                     });
                 },
                 selectConstraint: {
@@ -123,14 +123,14 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 
         @media screen and (max-device-width: 375px) {
             body {
-            background: url(images/topbg.png) repeat-x;
-            background-size: auto 13%;
-            font-family: 'DroidSansRegular', Verdana, Geneva, sans-serif;
-            color: #5a5143;
-        }
+                background: url(images/topbg.png) repeat-x;
+                background-size: auto 13%;
+                font-family: 'DroidSansRegular', Verdana, Geneva, sans-serif;
+                color: #5a5143;
+            }
         }
 
-            #calendarbackground {
+        #calendarbackground {
             margin: 0;
             padding: 0;
             font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
@@ -191,6 +191,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <li class="nav-item"><a href="User/Contact.php">Contact</a></li>
                     <?php
                     if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
+                        echo '<style>#exCollapsingNavbar{
+                                        margin-left: 0%;
+                                                }</style>';
                         echo '<li class="nav-item"><a href="User/mybooking.php">My Bookings</a></li><li class="nav-item"><a href="User/PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="User/php/logout.php">Logout</a></li>';
                     } else {
                         echo '<li class="nav-item"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
@@ -231,9 +234,10 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
             <form action="#" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="images/ev.png" width="22" height="22">
-                    <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span id="chkmsg"></span>
+                    <input type="text" name="Email" id="email" placeholder="Email Address" required=""><span
+                            id="chkmsg"></span>
                 </div>
-                <input type="button" id ="sub_btn" value="Reset">
+                <input type="button" id="sub_btn" value="Reset">
             </form>
             <h5>Back to <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></h5>
         </div>
@@ -242,7 +246,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <div id="small-dialog1" class="mfp-hide w3ls_small_dialog wthree_pop">
         <h3>Sign Up</h3>
         <div class="agileits_modal_body">
-            <br action="User/php/register_check.php" method="post">
+            <form action="User/php/register_check.php" method="post">
                 <div class="agileits_w3layouts_user">
                     <img src="images/user.png" width="22" height="22">
                     <input type="text" name="firstname" placeholder="First Name" required="">
@@ -251,12 +255,12 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
                     <img src="images/user.png" width="22" height="22">
                     <input type="text" name="lastname" placeholder="Last Name" required="">
                 </div>
-            <div style="margin-top: 10px"></div>
+                <div style="margin-top: 10px"></div>
                 <div class="agileits_w3layouts_user">
                     <img src="images/ev.png" width="22" height="22">
                     <input type="text" name="email" placeholder="Email Address" required="">
                 </div>
-            <div style="margin-top: 10px"></div>
+                <div style="margin-top: 10px"></div>
                 <div class="agileits_w3layouts_user">
                     <img src="images/phone.png" width="22" height="22">
                     <input type="text" name="phone" placeholder="Phone Number" required="">
@@ -299,7 +303,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
             <h2>
                 <div class="banner-form">
                     <form class="search_form" action="" method="post">
-                        <input class="wow fadeInRight" data-wow-delay="0.5s" type="text" placeholder="Search"
+                        <input class="wow fadeInRight" data-wow-delay="0.5s" type="text"
+                               placeholder="Facility or Classes"
                                name="facility"/>
                         <input class="wow fadeInLeft" data-wow-delay="0.5s" type="submit" name="submit" value="Search"
                                style="width: 75px"/>
@@ -314,69 +319,96 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     </div>
 
     <div class="container" style="">
-        <div class="mainheading">
+        <?php
+        require_once 'User/database/database.php';
+        //$record = $pdo->query("SELECT game.gameName,record.time,record.result FROM competition JOIN record ON record.competitionid = competition.competitionid JOIN game ON competition.gameid = game.gameid WHERE userid = '".$_SESSION['user']['userid'AND game.rank<=7]."';");
+        $facility = filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_STRING);
+        if (isset($_POST['submit']) && $_POST['submit'] == "Search" && $facility != null) {
+            $search = $pdo->query("SELECT * FROM facility WHERE FacilityName LIKE '%" . $facility . "%';");
+            echo '<div class="mainheading">
+            <h2 class="introhead">Search Result</h2>
+        </div>
+        <div>';
+            while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
+                echo '<div class="search"><table>
+<tr>
+<th>Facility Name</th>
+<th>Image</th>
+<th>Description</th>
+</tr>
+<tr>
+ <td>' . $row['FacilityName'] . '</td>
+ <style>.image{
+margin-left: 25%;
+ width: 50%;
+ height: 50%;
+ }</style>
+    <td><div class="image"><img src="images/' . $row['FacilityName'] . '.jpg"></div></td>
+    <td><textarea style="width: 100%;height: 100%" rows="5">' . $row['Description'] . '</textarea></td>    
+    </tr></table></div>';
+            }
+
+            $search = $pdo->query("SELECT * FROM event as e left join user as u on e.TrainerID = u.UserID WHERE EventName LIKE '%" . $facility . "%';");
+            while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
+                echo '<div class="search"><table>
+<tr>
+<th>Event Name</th>
+<th>Trainer Name</th>
+<th>Contact</th>
+<th>Description</th>
+</tr>
+<tr>
+    <td>' . $row['EventName'] . '</td>
+    <td>' . $row['Firstname'] . ' ' . $row['Lastname'] . '</td>
+    <td>' . $row['Email'] . '<br> ' . $row['Phone'] . '</td>
+     <td><textarea style="width: 100%;height: 100%" rows="5">' . $row['Description'] . '</textarea></td>    
+    </tr></table></div>';
+            }
+        } else {
+            echo '<div class="mainheading">
             <h2 class="introhead">Main Facilities in Maiden Castle</h2>
         </div>
-        <div>
-            <?php
-            require_once 'User/database/database.php';
-            //$record = $pdo->query("SELECT game.gameName,record.time,record.result FROM competition JOIN record ON record.competitionid = competition.competitionid JOIN game ON competition.gameid = game.gameid WHERE userid = '".$_SESSION['user']['userid'AND game.rank<=7]."';");
-            $facility = filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_STRING);
-            if (isset($_POST['submit']) && $_POST['submit'] == "Search" && $facility != null) {
-                $search = $pdo->query("SELECT * FROM facility WHERE FacilityName LIKE '%" . $facility . "%';");
-                while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
-                    echo '<div class="cell">';
-                    echo '<div class="image"><img src="images/' . $row['FacilityName'] . '.jpg"></a></div>';
-                    echo '<div align="center"><table class="font_table"><tr>
-                    <th>' . $row['FacilityName'] . '</th>
-                    </tr>
-                    <tr>
-                    <td><textarea class="textarea_facility" name="reworkmes" style="overflow:scroll; overflow-x: hidden;" readonly>' . $row['Description'] . '</textarea></td>
-                    </tr></table></div>';
-                    echo '</div>';
-                }
-            }
-            else {
-                showfacilities();
-            } ?>
-        </div>
-
-        <div class="container" style="">
-            <div id="fourcols">
-                <div class="mainheading">
-                    <h2 class="introhead">Event</h2>
-                </div>
-                <div class="clear"></div>
-                <h3>flexible canlendar</h3>
-                <p>If you are interested in joining the classes/sessions, Please contact trainers for sign up</p>
-                <h4>Green: Classes/Sessions</h4>
-                <h5>Red: Block Booking</h5>
-                <h6>Other Color: Facility Booking</h6>
-                <div id="calendarbackground">
-                    <div id='calendar'></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </div>
-
+        <div>';
+            showfacilities();
+        } ?>
     </div>
 
-    <footer>
-
-        <div id="bottom">
-            <a href="../index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
-                    if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                        echo '<a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome '.$firstname. ' <a href="php/logout.php">Logout</a>';
-                    }else{
-                        echo '<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
-                    }
-                     ?>
+    <div class="container" style="">
+        <div id="fourcols">
+            <div class="mainheading">
+                <h2 class="introhead">Event</h2>
+            </div>
+            <div class="clear"></div>
+            <h3>flexible canlendar</h3>
+            <p>If you are interested in joining the classes/sessions, Please contact trainers for sign up</p>
+            <h4>Green: Classes/Sessions</h4>
+            <h5>Red: Block Booking</h5>
+            <h6>Other Color: Facility Booking</h6>
+            <div id="calendarbackground">
+                <div id='calendar'></div>
+            </div>
             <div class="clear"></div>
         </div>
-        <div id="credits">
-            2019 &copy; All Rights Reserved. <a>Group6</a> Durham University
-            <p>original data from: <a href=https://www.teamdurham.com>https://www.teamdurham.com</a></p>
-        </div>
-    </footer>
+    </div>
+
+</div>
+
+<footer>
+
+    <div id="bottom">
+        <a href="index.php">Home</a> | <a href="User/Contact.php">Contact</a> | <?php
+        if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
+            echo '<a href="User/mybooking.php">My Bookings</a> | <a href="User/PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="User/php/logout.php">Logout</a>';
+        } else {
+            echo '<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
+        }
+        ?>
+        <div class="clear"></div>
+    </div>
+    <div id="credits">
+        2019 &copy; All Rights Reserved. <a>Group6</a> Durham University
+        <p>original data from: <a href=https://www.teamdurham.com>https://www.teamdurham.com</a></p>
+    </div>
+</footer>
 </body>
 </html>

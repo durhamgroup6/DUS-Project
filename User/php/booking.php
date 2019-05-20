@@ -7,14 +7,14 @@ if (isset($_GET['date']) && $_GET['date'] != null) {
     $newdate = date("Y-m-d H:i:s", strtotime($date));
     $start_d = date("Y-m-d", strtotime($date));
     $start_t = date("H:i:s", strtotime($date));
-    $sql = "SELECT StartDate,EndDate FROM event WHERE color = 'red'";
-    $result = $pdo->query($sql);
-    while ($row = $result->fetch(PDO::FETCH_NUM)) {
-        if ($newdate >= $row[0] && $newdate < $row[1]) {
-            echo "This time is unavailable for booking";
-            die();
-        }
-    }
+//    $sql = "SELECT StartTime,EndTime FROM blockbookings";
+//    $result = $pdo->query($sql);
+//    while ($row = $result->fetch(PDO::FETCH_NUM)) {
+//        if ($newdate >= $row[0] && $newdate < $row[1]) {
+//            echo "This time is unavailable for booking";
+//            die();
+//        }
+//    }
 }
 if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     $userId = $_SESSION['user']['UserID'];
@@ -33,18 +33,18 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     } else if ($facilityName == "Athletics Track") {
         $color = "orange";
     }
-    $sql = "SELECT StartDate,EndDate FROM event WHERE color = 'red'";
+    $sql = "SELECT bb.StartTime,bb.EndTime,f.FacilityName FROM blockbookings as bb left join facility as f on bb.FacilityID = f.FacilityID where f.FacilityName='$facilityName'";
     $result = $pdo->query($sql);
     while ($row = $result->fetch(PDO::FETCH_NUM)) {
-        if ($start >= $row[0] && $start < $row[1]) {
-            ?>
-            <script>
-                window.alert("Sorry, This time is unavailable for booking.");
-                history.go(-1);
-            </script>
-            <?php
-            die();
-        }
+            if ($start >= $row[0] && $start < $row[1]) {
+                ?>
+                <script>
+                    window.alert("Sorry, This facility is unavailable for booking at this time.");
+                    history.go(-1);
+                </script>
+                <?php
+                die();
+            }
     }
 
     $stmt = $pdo->query("SELECT * FROM facility WHERE FacilityName='" . $facilityName . "'");
@@ -147,7 +147,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
         }
     }
 
-    $sql = "SELECT * FROM booking WHERE UserID='$userId' and StartTime ='$startTime' and FacilityID ='$facilityId'";
+    $sql = "SELECT * FROM bookingdates as bb left join booking as b on b.BookingID = bb.BookingID WHERE b.UserID='$userId' and bb.StartTime ='$startTime' and b.FacilityID ='$facilityId'";
     $result = $pdo->query($sql);
     $row = $result->fetch(PDO::FETCH_ASSOC);
     if ($row) {
@@ -161,7 +161,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
     } else {
         for ($x = 1; $x <= $howLong; $x++) {
             $nextHour = date('Y-m-d H:i:s', strtotime("+1 hour", strtotime($startTime)));// one hour later of the start time
-            $stmt = $pdo->query("SELECT COUNT(BookingID) AS currentBookings FROM booking WHERE StartTime='" . $startTime . "' AND EndTime='" . $nextHour . "';");
+            $stmt = $pdo->query("SELECT COUNT(*) AS currentBookings FROM bookingdates as bb left join booking as b on bb.BookingID = b.BookingID WHERE b.FacilityID='$facilityId' and bb.StartTime='" . $startTime . "' AND bb.EndTime='" . $nextHour . "';");
             $count = $stmt->fetch(PDO::FETCH_ASSOC);
             $currentBookings = $count['currentBookings'];
             if ($currentBookings >= $capacity) {
@@ -172,12 +172,27 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
                 </script>
                 <?php
                 die();
-            } else {
-                $insert_into_booking = "INSERT INTO booking (UserID, StartTime, EndTime, Price, FacilityID,color) VALUES ('" . $userId . "', '" . $startTime . "', '" . $nextHour . "', '" . $price . "', '" . $facilityId . "','$color');";
-                $pdo->exec($insert_into_booking);
+            }
+        }
+
+        $endTime = date('Y-m-d H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
+            $insert_into_booking = "INSERT INTO booking (UserID, StartTime, EndTime, Price, FacilityID,is_cancel,color) VALUES ('$userId', '$startTime', '$endTime', '$price', '$facilityId','0','$color')";
+            $pdo->exec($insert_into_booking);
+            $insertID = $pdo->lastInsertId();
+
+        for ($x = 1; $x <= $howLong; $x++) {
+            $nextHour = date('Y-m-d H:i:s', strtotime("+1 hour", strtotime($startTime)));// one hour later of the start time
+            $stmt = $pdo->query("SELECT COUNT(*) AS currentBookings FROM bookingdates as bb left join booking as b on bb.BookingID = b.BookingID WHERE b.FacilityID='$facilityId' and bb.StartTime='" . $startTime . "' AND bb.EndTime='" . $nextHour . "';");
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+            $currentBookings = $count['currentBookings'];
+            if ($currentBookings < $capacity) {
+                $insert_into_bookingdate = "INSERT INTO bookingdates (BookingID, StartTime, EndTime) VALUES ('" . $insertID . "', '" . $startTime . "', '" . $nextHour . "');";
+                $pdo->exec($insert_into_bookingdate);
                 $startTime = $nextHour;
             }
         }
+
+
         if ($pdo->lastInsertId()) {
             $firstname = $_SESSION['user']['Firstname'];
             $email = $_SESSION['user']['Email'];

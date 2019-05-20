@@ -879,7 +879,18 @@ button::-moz-focus-inner {
     border: 1px solid #5B5B5B;
     background: #FFF;
 }
+.search{
+    margin-top: auto;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
 
+}
+.search td{
+    width: 20%;
+    height: 20%;
+
+}
 .checkbox input + i:after, .radio input + i:after {
     position: absolute;
     opacity: 0;
@@ -889,7 +900,9 @@ button::-moz-focus-inner {
     -moz-transition: opacity 0.1s;
     -webkit-transition: opacity 0.1s;
 }
-
+#exCollapsingNavbar{
+    margin-left: 20%;
+}
 .checkbox input:checked + i:after, .radio input:checked + i:after {
     opacity: 1;
 }
