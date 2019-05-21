@@ -22,7 +22,7 @@ function showfacilities()
     $facility = $pdo->query($sql);
     while ($row = $facility->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="cell">';
-        echo '<div class="image"><img src="images/' . $row['FacilityName'] . '.jpg"></a></div>';
+        echo '<div class="image"><img src="Admin/facilityImages/' . $row['PicURL'].'"></div>';
         echo '<div align="center"><table class="font_table" "><tr>
                     <th style="font-size: 1.8em">' . $row['FacilityName'] . '</th>
                     </tr>

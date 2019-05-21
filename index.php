@@ -330,8 +330,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         </div>
         <div>';
             while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
-                echo '<div class="search"><table>
-<tr>
+                echo '<div class="search"><table>';
+                $image =$row['PicURL'];
+echo '<tr>
 <th>Facility Name</th>
 <th>Image</th>
 <th>Description</th>
@@ -343,7 +344,7 @@ margin-left: 25%;
  width: 50%;
  height: 50%;
  }</style>
-    <td><div class="image"><img src="images/' . $row['FacilityName'] . '.jpg"></div></td>
+    <td><div class="image"><img src="Admin/facilityImages/'.$image.'"></div></td>
     <td><textarea style="width: 100%;height: 100%" rows="5">' . $row['Description'] . '</textarea></td>    
     </tr></table></div>';
             }
