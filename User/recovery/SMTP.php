@@ -330,12 +330,10 @@ class SMTP
                 self::DEBUG_CONNECTION
             );
             set_error_handler([$this, 'errorHandler']);
-            $this->smtp_conn = fsockopen(
-                $host,
-                $port,
+            $this->smtp_conn = stream_socket_client(
+                $host.':'.$port,
                 $errno,
-                $errstr,
-                $timeout
+                $errstr
             );
             restore_error_handler();
         }
