@@ -160,25 +160,34 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
         die();
     } else {
         for ($x = 1; $x <= $howLong; $x++) {
+            $flag = 0;
+            $changing_startTime = $startTime;
             $nextHour = date('Y-m-d H:i:s', strtotime("+1 hour", strtotime($startTime)));// one hour later of the start time
-            $stmt = $pdo->query("SELECT COUNT(*) AS currentBookings FROM bookingdates as bb left join booking as b on bb.BookingID = b.BookingID WHERE b.FacilityID='$facilityId' and bb.StartTime='" . $startTime . "' AND bb.EndTime='" . $nextHour . "';");
+            $stmt = $pdo->query("SELECT COUNT(*) AS currentBookings FROM bookingdates as bb left join booking as b on bb.BookingID = b.BookingID WHERE b.FacilityID='$facilityId' and bb.StartTime='" . $changing_startTime . "' AND bb.EndTime='" . $nextHour . "';");
             $count = $stmt->fetch(PDO::FETCH_ASSOC);
             $currentBookings = $count['currentBookings'];
             if ($currentBookings >= $capacity) {
                 ?>
                 <script>
-                    window.alert("Sorry, this facility is full booked from <?php echo $startTime; ?> to <?php echo $nextHour; ?>");
+                    window.alert("Sorry, this facility is full booked from <?php echo $changing_startTime; ?> to <?php echo $nextHour; ?>");
                     history.go(-1);
                 </script>
                 <?php
                 die();
+            }else{
+                $changing_startTime = $nextHour;
+                $flag++;
             }
         }
 
-        $endTime = date('Y-m-d H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
-            $insert_into_booking = "INSERT INTO booking (UserID, StartTime, EndTime, Price, FacilityID,is_cancel,color) VALUES ('$userId', '$startTime', '$endTime', '$price', '$facilityId','0','$color')";
-            $pdo->exec($insert_into_booking);
-            $insertID = $pdo->lastInsertId();
+
+            if($flag == $flag){
+                $endTime = date('Y-m-d H:i:s', strtotime("+" . $howLong . " hour", strtotime($startTime)));
+                $insert_into_booking = "INSERT INTO booking (UserID, StartTime, EndTime, Price, FacilityID,is_cancel,color) VALUES ('$userId', '$startTime', '$endTime', '$totalPrice', '$facilityId','0','$color')";
+                $pdo->exec($insert_into_booking);
+                $insertID = $pdo->lastInsertId();
+            }
+
 
         for ($x = 1; $x <= $howLong; $x++) {
             $nextHour = date('Y-m-d H:i:s', strtotime("+1 hour", strtotime($startTime)));// one hour later of the start time
