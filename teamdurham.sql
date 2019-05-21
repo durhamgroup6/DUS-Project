@@ -115,7 +115,7 @@ INSERT INTO `bookingdates` (`BookDateID`, `BookingID`, `StartTime`, `EndTime`) V
 CREATE TABLE `event` (
   `EventID` int(11) NOT NULL,
   `EventName` text CHARACTER SET utf8 NOT NULL,
-  `TrainerID` int(11) NOT NULL,
+  `TrainerID` int(11) DEFAULT NULL,
   `Capacity` int(11) NOT NULL,
   `Description` longtext NOT NULL,
   `StartDate` datetime NOT NULL,
