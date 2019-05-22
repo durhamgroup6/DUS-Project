@@ -31,6 +31,7 @@ you can modify role and view users in users page;
 you can add and view facility in facilities page, as well as, blocking facility;
 you can add and view events in events page;
 you can add and view bookings in bookingspage;
+you can enter user area;
 
 
 Attention:in this project, some operations maybe load slowly, please wait patiently! Thanks~
