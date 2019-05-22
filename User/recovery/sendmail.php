@@ -30,9 +30,10 @@ if ($row == null) {//this email does not register！
 }
 
 function sendmail($firstname,$time, $email, $url){
-    require 'PHPMailer.php';
+    require 'src/PHPMailer.php';
+    require 'src/SMTP.php';
 //Create a new PHPMailer instance
-    $mail = new PHPMailer;
+    $mail = new PHPMailer();
 //Tell PHPMailer to use SMTP
     $mail->isSMTP();
 //Enable SMTP debugging
