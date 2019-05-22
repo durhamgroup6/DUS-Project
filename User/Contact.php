@@ -91,7 +91,7 @@ if(isset($_SESSION['user'])&&$_SESSION['user']!=null) {
 
     <div class="container" style="">
         <nav class="navbar navbar-expand-md navbar-light bg-faded">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="https://www.teamdurham.com/">
                 <h1 id="textlogo">
                     Durham University<span>Sport</span>
                 </h1>

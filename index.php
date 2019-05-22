@@ -22,7 +22,6 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
     <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment-with-locales.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js"></script>
-
     <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
@@ -176,7 +175,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 
     <div class="container" style="">
         <nav class="navbar navbar-expand-md navbar-light bg-faded">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="https://www.teamdurham.com/">
                 <h1 id="textlogo">
                     Durham University<span>Sport</span>
                 </h1>
@@ -188,15 +187,21 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
             <div class="collapse navbar-collapse" id="exCollapsingNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item active"><a href="index.php">Home</a></li>
-                    <li class="nav-item"><a href="User/Contact.php">Contact</a></li>
                     <?php
                     if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                        echo '<style>#exCollapsingNavbar{
+                        if ($_SESSION["user"]['Role'] != "admin") {
+                            echo '<style>#exCollapsingNavbar{
                                         margin-left: 0%;
                                                 }</style>';
-                        echo '<li class="nav-item"><a href="User/mybooking.php">My Bookings</a></li><li class="nav-item"><a href="User/PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="User/php/logout.php">Logout</a></li>';
+                            echo '<li class="nav-item"><a href="User/Contact.php">Contact</a></li><li class="nav-item"><a href="User/mybooking.php">My Bookings</a></li><li class="nav-item"><a href="User/PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="User/php/logout.php">Logout</a></li>';
+                        } else {
+                            echo '<style>#exCollapsingNavbar{
+                                        margin-left: -2%;
+                                                }</style>';
+                            echo '<li class="nav-item"><a href="User/mybooking.php">My Bookings</a></li><li class="nav-item"><a href="User/PersonalDetail.php">Personal Detail</a></li>  <li class="nav-item"><a href="Admin/index.php">Admin Area</a></li><li class="nav-item"><a href="User/php/logout.php">Logout</a></li>';
+                        }
                     } else {
-                        echo '<li class="nav-item"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
+                        echo ' <li class="nav-item"><a href="User/Contact.php">Contact</a></li><li class="nav-item"><a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Register</a></li>';
                     }
                     ?>
                 </ul>
@@ -331,8 +336,8 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
         <div>';
             while ($row = $search->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class="search"><table>';
-                $image =$row['PicURL'];
-echo '<tr>
+                $image = $row['PicURL'];
+                echo '<tr>
 <th>Facility Name</th>
 <th>Image</th>
 <th>Description</th>
@@ -344,7 +349,7 @@ margin-left: 25%;
  width: 50%;
  height: 50%;
  }</style>
-    <td><div class="image"><img src="Admin/facilityImages/'.$image.'"></div></td>
+    <td><div class="image"><img src="Admin/facilityImages/' . $image . '"></div></td>
     <td><textarea style="width: 100%;height: 100%" rows="5">' . $row['Description'] . '</textarea></td>    
     </tr></table></div>';
             }
@@ -397,11 +402,15 @@ margin-left: 25%;
 <footer>
 
     <div id="bottom">
-        <a href="index.php">Home</a> | <a href="User/Contact.php">Contact</a> | <?php
+        <a href="index.php">Home</a> | <?php
         if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-            echo '<a href="User/mybooking.php">My Bookings</a> | <a href="User/PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="User/php/logout.php">Logout</a>';
-        } else {
-            echo '<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
+            if ( $_SESSION["user"]['Role'] != "admin") {
+                echo '<a href="User/Contact.php">Contact</a> | <a href="User/mybooking.php">My Bookings</a> | <a href="User/PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="User/php/logout.php">Logout</a>';
+            }else{
+                echo '<a href="User/mybooking.php">My Bookings</a> | <a href="User/PersonalDetail.php">Personal Detail</a> | <a href="Admin/index.php">Admin Area</a> | Welcome ' . $firstname . ' <a href="User/php/logout.php">Logout</a>';
+            }
+        }else {
+            echo '<a href="User/Contact.php">Contact</a> | <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
         }
         ?>
         <div class="clear"></div>

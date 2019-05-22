@@ -54,7 +54,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 
     <div class="container" style="">
         <nav class="navbar navbar-expand-md navbar-light bg-faded">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="https://www.teamdurham.com/">
                 <h1 id="textlogo">
                     Durham University<span>Sport</span>
                 </h1>
@@ -66,14 +66,20 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
             <div class="collapse navbar-collapse" id="exCollapsingNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item"><a href="../index.php">Home</a></li>
-                    <li class="nav-item"><a href="Contact.php">Contact</a></li>
                     <?php
                     if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-                        echo '<style>#exCollapsingNavbar{
+                        if ($_SESSION["user"]['Role'] != "admin") {
+                            echo '<style>#exCollapsingNavbar{
                                         margin-left: 0%;
                                                 }</style>';
-                        echo '<li class="nav-item"><a href="mybooking.php">My Bookings</a></li><li class="nav-item active"><a href="PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="php/logout.php">Logout</a></li>';
-                    } else {
+                            echo '<li class="nav-item"><a href="Contact.php">Contact</a></li><li class="nav-item"><a href="mybooking.php">My Bookings</a></li><li class="nav-item active"><a href="PersonalDetail.php">Personal Detail</a></li><li class="nav-item"><a href="php/logout.php">Logout</a></li>';
+                        }else{
+                            echo '<style>#exCollapsingNavbar{
+                                        margin-left: -2%;
+                                                }</style>';
+                            echo '<li class="nav-item"><a href="mybooking.php">My Bookings</a></li><li class="nav-item active"><a href="PersonalDetail.php">Personal Detail</a></li>  <li class="nav-item"><a href="../Admin/index.php">Admin Area</a></li><li class="nav-item"><a href="php/logout.php">Logout</a></li>';
+                        }
+                    }else {
                         header('Location: ../index.php');
                     }
                     ?>
@@ -137,9 +143,15 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 <footer>
 
     <div id="bottom">
-        <a href="../index.php">Home</a> | <a href="Contact.php">Contact</a> | <?php
+        <a href="../index.php">Home</a> | <?php
         if (isset($_SESSION["user"]) && $_SESSION["user"] != null) {
-            echo ' <a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="php/logout.php">Logout</a>';
+            if ( $_SESSION["user"]['Role'] != "admin") {
+                echo '<a href="Contact.php">Contact</a> | <a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | Welcome ' . $firstname . ' <a href="php/logout.php">Logout</a>';
+            }else{
+                echo '<a href="mybooking.php">My Bookings</a> | <a href="PersonalDetail.php">Personal Detail</a> | <a href="../Admin/index.php">Admin Area</a> | Welcome ' . $firstname . ' <a href="php/logout.php">Logout</a>';
+            }
+        }else {
+            echo '<a href="Contact.php">Contact</a> | <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
         }
         ?>
         <div class="clear"></div>
