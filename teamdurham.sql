@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-05-23 14:52:11
+-- 生成日期： 2019-05-24 00:17:27
 -- 服务器版本： 10.1.38-MariaDB
 -- PHP 版本： 7.3.2
 
@@ -41,16 +41,10 @@ CREATE TABLE `blockbookings` (
 --
 
 INSERT INTO `blockbookings` (`BlockID`, `FacilityID`, `color`, `StartTime`, `EndTime`) VALUES
-(14, 6, '#FF0000', '2019-05-28 10:50:00', '2019-05-28 11:50:00'),
-(15, 6, '#FF0000', '2019-05-29 10:50:00', '2019-05-29 11:50:00'),
-(16, 6, '#FF0000', '2019-05-30 10:50:00', '2019-05-30 11:50:00'),
-(17, 4, '#FF0000', '2019-05-09 07:00:00', '2019-05-09 11:00:00'),
-(18, 4, '#FF0000', '2019-05-10 07:00:00', '2019-05-10 11:00:00'),
-(19, 4, '#FF0000', '2019-05-11 07:00:00', '2019-05-11 11:00:00'),
-(20, 4, '#FF0000', '2019-05-12 07:00:00', '2019-05-12 11:00:00'),
-(21, 4, '#FF0000', '2019-05-13 07:00:00', '2019-05-13 11:00:00'),
-(22, 4, '#FF0000', '2019-05-14 07:00:00', '2019-05-14 11:00:00'),
-(23, 4, '#FF0000', '2019-05-15 07:00:00', '2019-05-15 11:00:00');
+(17, 4, '#FF0000', '2019-05-20 08:00:00', '2019-05-20 09:00:00'),
+(18, 4, '#FF0000', '2019-05-21 08:00:00', '2019-05-21 09:00:00'),
+(20, 6, '#FF0000', '2019-05-23 04:00:00', '2019-05-23 06:00:00'),
+(21, 6, '#FF0000', '2019-05-24 04:00:00', '2019-05-24 06:00:00');
 
 -- --------------------------------------------------------
 
@@ -59,7 +53,7 @@ INSERT INTO `blockbookings` (`BlockID`, `FacilityID`, `color`, `StartTime`, `End
 --
 
 CREATE TABLE `booking` (
-  `BookingID` int(11) NOT NULL AUTO_INCREMENT,
+  `BookingID` int(11) NOT NULL,
   `UserID` int(20) NOT NULL,
   `StartTime` datetime DEFAULT NULL,
   `EndTime` datetime DEFAULT NULL,
@@ -74,12 +68,9 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`BookingID`, `UserID`, `StartTime`, `EndTime`, `Price`, `FacilityID`, `is_cancel`, `color`) VALUES
-(52, 5, '2019-05-21 08:30:00', '2019-05-24 10:30:00', 200, 6, 0, '#2e7b1b'),
-(53, 3, '2019-05-21 11:30:00', '2019-05-24 02:15:00', 100, 4, 0, '#4b60b0'),
-(54, 4, '2019-05-30 07:00:00', '2019-05-30 11:00:00', 10, 3, 0, '#fffb00'),
-(55, 8, '2019-06-06 09:00:00', '2019-06-06 12:00:00', 54, 4, 1, 'blue'),
-(56, 8, '2019-06-06 09:00:00', '2019-06-06 11:00:00', 10.8, 3, 0, 'yellow'),
-(57, 9, '2019-05-31 11:00:00', '2019-05-31 12:00:00', 9, 5, 0, 'pink');
+(57, 3, '2019-05-26 08:00:00', '2019-05-26 12:00:00', 10, 4, 0, 'blue'),
+(58, 2, '2019-05-23 13:00:00', '2019-05-23 15:00:00', 10, 4, 0, 'blue'),
+(59, 4, '2019-05-29 08:00:00', '2019-05-29 09:00:00', 12, 5, 1, 'pink');
 
 -- --------------------------------------------------------
 
@@ -99,30 +90,22 @@ CREATE TABLE `bookingdates` (
 --
 
 INSERT INTO `bookingdates` (`BookDateID`, `BookingID`, `StartTime`, `EndTime`) VALUES
-(14, 52, '2019-05-21 08:30:00', '2019-05-21 10:30:00'),
-(15, 52, '2019-05-22 08:30:00', '2019-05-22 10:30:00'),
-(16, 52, '2019-05-23 08:30:00', '2019-05-23 10:30:00'),
-(17, 52, '2019-05-24 08:30:00', '2019-05-24 10:30:00'),
-(18, 53, '2019-05-21 11:30:00', '2019-05-21 02:15:00'),
-(19, 53, '2019-05-22 11:30:00', '2019-05-22 02:15:00'),
-(20, 53, '2019-05-23 11:30:00', '2019-05-23 02:15:00'),
-(21, 53, '2019-05-24 11:30:00', '2019-05-24 02:15:00'),
-(22, 54, '2019-05-30 07:00:00', '2019-05-30 11:00:00'),
-(23, 55, '2019-06-06 09:00:00', '2019-06-06 10:00:00'),
-(24, 55, '2019-06-06 10:00:00', '2019-06-06 11:00:00'),
-(25, 55, '2019-06-06 11:00:00', '2019-06-06 12:00:00'),
-(26, 56, '2019-06-06 09:00:00', '2019-06-06 10:00:00'),
-(27, 56, '2019-06-06 10:00:00', '2019-06-06 11:00:00'),
-(28, 57, '2019-05-31 11:00:00', '2019-05-31 12:00:00');
+(426, 57, '2019-05-26 08:00:00', '2019-05-26 09:00:00'),
+(427, 57, '2019-05-26 09:00:00', '2019-05-26 10:00:00'),
+(428, 57, '2019-05-26 10:00:00', '2019-05-26 11:00:00'),
+(429, 57, '2019-05-26 11:00:00', '2019-05-26 12:00:00'),
+(430, 58, '2019-05-23 13:00:00', '2019-05-23 14:00:00'),
+(431, 58, '2019-05-23 14:00:00', '2019-05-23 15:00:00'),
+(432, 59, '2019-05-29 08:00:00', '2019-05-29 09:00:00');
 
 -- --------------------------------------------------------
 
-/*Table structure for table `event` */
-
-DROP TABLE IF EXISTS `event`;
+--
+-- 表的结构 `event`
+--
 
 CREATE TABLE `event` (
-  `EventID` int(11) NOT NULL AUTO_INCREMENT,
+  `EventID` int(11) NOT NULL,
   `EventName` text CHARACTER SET utf8 NOT NULL,
   `TrainerID` int(11) DEFAULT NULL,
   `Capacity` int(11) NOT NULL,
@@ -131,33 +114,38 @@ CREATE TABLE `event` (
   `EndDate` datetime NOT NULL,
   `WeekDate` int(11) DEFAULT NULL,
   `FacilityID` int(11) NOT NULL,
-  `color` varchar(20) NOT NULL,
-  PRIMARY KEY (`EventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  `color` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `event` */
+--
+-- 转存表中的数据 `event`
+--
 
-insert  into `event`(`EventID`,`EventName`,`TrainerID`,`Capacity`,`Description`,`StartDate`,`EndDate`,`WeekDate`,`FacilityID`,`color`) values 
-(7,'match',2,50,'Test','2019-05-22 08:00:00','2019-05-24 10:00:00',4,3,'#3c763d');
+INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Description`, `StartDate`, `EndDate`, `WeekDate`, `FacilityID`, `color`) VALUES
+(7, 'match', 2, 50, 'bkjhiiuiuj', '2019-05-22 08:00:00', '2019-05-24 10:00:00', 4, 3, '#3c763d');
 
 -- --------------------------------------------------------
 
-/*Table structure for table `eventdates` */
-
-DROP TABLE IF EXISTS `eventdates`;
+--
+-- 表的结构 `eventdates`
+--
 
 CREATE TABLE `eventdates` (
-  `EventDateID` int(11) NOT NULL AUTO_INCREMENT,
+  `EventDateID` int(11) NOT NULL,
   `EventID` int(11) DEFAULT NULL,
   `StartTime` datetime DEFAULT NULL,
-  `EndTime` datetime DEFAULT NULL,
-  PRIMARY KEY (`EventDateID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `EndTime` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `eventdates` */
+--
+-- 转存表中的数据 `eventdates`
+--
 
-insert  into `eventdates`(`EventDateID`,`EventID`,`StartTime`,`EndTime`) values 
-(4,7,'2019-05-22 08:00:00','2019-05-22 10:00:00'),(5,7,'2019-05-23 08:00:00','2019-05-23 10:00:00'),(6,7,'2019-05-24 08:00:00','2019-05-24 10:00:00');
+INSERT INTO `eventdates` (`EventDateID`, `EventID`, `StartTime`, `EndTime`) VALUES
+(4, 7, '2019-05-22 08:00:00', '2019-05-22 10:00:00'),
+(5, 7, '2019-05-23 08:00:00', '2019-05-23 10:00:00'),
+(6, 7, '2019-05-24 08:00:00', '2019-05-24 10:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -179,16 +167,17 @@ CREATE TABLE `facility` (
 --
 
 INSERT INTO `facility` (`FacilityID`, `FacilityName`, `Description`, `Price`, `Capacity`, `Availability`, `PicURL`) VALUES
-(3, 'Squash Courts', 'Squash Courts: Â£6 per court, per hour.', 6, 20, 1, 'Squash Courts.jpg'),
-(4, 'Aerobics room', 'A mirrored studio is avaliable for group classes such as dance, yoga and pilates. This space can also be used for presentations and functions.\r\n\r\nAerobics Room - Â£20.00 per hour', 20, 20, 1, 'Aerobics room.jpg'),
-(5, 'Sports Hall', 'There are multiple activites that take place in the sports hall.\r\n\r\nSquash: Â£6.00 per court per hour\r\n\r\nBadminton: Â£11.00 per court per hour\r\n\r\nBasketball: Â£27.50 per hour\r\n\r\nVolleyball: Â£27.50 per hour\r\n\r\n5 a side: Â£55.00 per hour\r\n\r\nNetball: Â£55.00 per hour\r\n\r\nCricket Nets: Â£60.00 per hour', 6, 100, 1, 'Sports Hall.jpg'),
-(6, 'Athletics Track', 'Track - Â£2.00 per person\r\n\r\nTrack (sole use) - Â£30.00 per hour', 30, 20, 1, 'Athletics Track.jpg'),
-(7, 'Fitness Suite', 'The fitness suite is fully air conditioned and benefits from a wide variety of machines and equipment including Technogym resistance machines, cable systems, free weights, cardio vascular machines, TRX suspension training system, ViPR trainers and medicine balls, as well as foam rollers and exercise balls. We also have a chilled water dispenser and large screen TVs.  We have a number of fully qualified and knowledgeable members of staff who can assist with any of your needs and provide guidance with exercises or workout plans.  You will also benefit from free parking and on-site change/shower facilities.  Opening Times:  Monday to Friday 7.00 am to 10.00 pm (last entry, 9.15 pm) Saturday & Sunday  9.00 am to 6.00 pm (last entry, 5.15 pm)\r\n\r\nAddress:Durham DH1 3SE, UK\r\n\r\nEmail:Fitness.suite@dur.ac.uk\r\n\r\nPhone:1913342178', 5, 20, 1, 'Fitness Suite.jpg'),
-(8, 'Maiden Castle Physiotherapy', 'Who are we and what can we do for you?  Maiden Castle Physiotherapy (MCP) is a friendly and experienced team offering services to the athletes of Team Durham and the surrounding area. Based at the Graham Sports Centre in Maiden Castle, our specialist team offer physiotherapy for a wide range of musculoskeletal conditions including sports injuries, back, neck or joint or muscle pains or sports injuries.  Our team of experienced state registered NHS physiotherapists will assess and provide tailored treatment programmes to help get you back on track, achieve your overall fitness goals and offer preventative advice to help you stay pain free.  Physiotherapy assessment/treatment 30 minutesï¿½Â£30  Discounted rate for Durham University Staffï¿½Â£28  Discounted for Durham University Studentsï¿½Â£24  Sports massageï¿½30 minutesï¿½Â£25  Book your appointmentï¿½through the Graham Sports Centre reception today  Daytime and evening appointments available  Our opening hours are:  Mondayï¿½afternoon/evening  Tuesdayï¿½afternoon/evening  Wednesdayï¿½all day  Thursdayï¿½afternoon/evening  Fridayï¿½morning  If you book an appointment with us:   	During physiotherapy and massage appointments you may be asked to remove itemsï¿½of clothing to allow for assessment and treatment of an area and adjacent joints. 	For screening please wear shorts, trainers and a sports top. 	Athletes under 16 will need to be accompanied by a chaperone. 	If you have a preference for a male or female therapist please make the request when booking your appointment.', 20, 20, 1, 'Maiden Castle Physiotherapy.jpg'),
-(9, 'Fencing Salle', 'More details please contact durham fencing society', 100, 60, 1, 'Fencing Salle.jpg'),
-(10, 'Artificial pitches', 'Water-based Astro - (hockey)\r\nStaff/Student:\r\nHalf pitch - Â£20 per hour\r\nFull pitch Â£40 per hour\r\nPublic:\r\nHalf pitch Â£40 per hour\r\nFull pitch Â£80 per hour', 20, 100, 1, 'Artificial Pitches.jpg'),
-(11, 'Rubber Crumbs', 'Staff/Student:\r\nHalf pitch Â£20 per hour\r\nFull pitch Â£40 per hour\r\nPublic:\r\nHalf pitch Â£40 per hour\r\nFull pitch Â£80 per hour', 20, 100, 1, 'Rubber Crumbs.jpg'),
-(12, 'Ergo Gallery', 'Public:\r\nFull Room: Â£35 per hour\r\nIf a coach is required the hourly rate for a coach is Â£15 per hour\r\nStaff/Students:\r\nFull Room: Â£30 per hour\r\nIf a coach is required the hourly rate for a coach is Â£15 per hour', 30, 30, 1, 'Ergo Gallery.jpg');
+(3, 'Squash Courts', 'Squash Courts:  Â£6 per court, per hour.', 6, 20, 1, 'Squash Courts.jpg'),
+(4, 'Aerobics room', 'A mirrored studio is avaliable for group classes such as dance, yoga and pilates. This space can also be used for presentations and functions.\r\n\r\nAerobics Room - Â£20.00 per hour', 20, 6, 1, 'Aerobics room.jpg'),
+(5, 'Tennis', 'Tennis (Tarmac) -  Â£10.00 per court per hour', 10, 20, 1, 'Athletics Track.jpg'),
+(6, 'Athletics Track', 'Track -  Â£2.00 per person\r\n\r\nTrack (sole use) -  Â£30.00 per hour', 7, 20, 1, 'Athletics Track.jpg'),
+(7, 'Fitness Suite', 'The fitness suite is fully air conditioned and benefits from a wide variety of machines and equipment including Technogym resistance machines, cable systems, free weights, cardio vascular machines, TRX suspension training system, ViPR trainers and medicine balls, as well as foam rollers and exercise balls. We also have a chilled water dispenser and large screen TVs.  We have a number of fully qualified and knowledgeable members of staff who can assist with any of your needs and provide guidance with exercises or workout plans.  You will also benefit from free parking and on-site change/shower facilities.  Opening Times:  Monday to Friday 7.00 am to 10.00 pm (last entry, 9.15 pm) Saturday & Sunday  9.00 am to 6.00 pm (last entry, 5.15 pm)\r\n\r\nAddress:Durham DH1 3SE, UK\r\n\r\nEmail:Fitness.suite@dur.ac.uk\r\n\r\nPhone:1913342178', 20, 20, 1, 'Fitness Suite.jpg'),
+(8, 'Maiden Castle Physiotherapy', 'Who are we and what can we do for you?  Maiden Castle Physiotherapy (MCP) is a friendly and experienced team offering services to the athletes of Team Durham and the surrounding area. Based at the Graham Sports Centre in Maiden Castle, our specialist team offer physiotherapy for a wide range of musculoskeletal conditions including sports injuries, back, neck or joint or muscle pains or sports injuries.  Our team of experienced state registered NHS physiotherapists will assess and provide tailored treatment programmes to help get you back on track, achieve your overall fitness goals and offer preventative advice to help you stay pain free.  Physiotherapy assessment/treatment 30 minutes Â£30  Discounted rate for Durham University Staff Â£28  Discounted for Durham University Students Â£24  Sports massage 30 minutes Â£25  Book your appointment through the Graham Sports Centre reception today  Daytime and evening appointments available  Our opening hours are:  Monday afternoon/evening  Tuesday afternoon/evening  Wednesday all day  Thursday afternoon/evening  Friday morning  If you book an appointment with us:   	During physiotherapy and massage appointments you may be asked to remove items of clothing to allow for assessment and treatment of an area and adjacent joints. 	For screening please wear shorts, trainers and a sports top. 	Athletes under 16 will need to be accompanied by a chaperone. 	If you have a preference for a male or female therapist please make the request when booking your appointment.', 20, 20, 1, 'Maiden Castle Physiotherapy.jpg'),
+(9, 'Ergo Gallery', 'Public:\r\nFull Room: Â£35 per hour\r\nIf a coach is required the hourly rate for a coach is Â£15 per hour\r\nStaff/Students:\r\nFull Room: Â£30 per hour\r\nIf a coach is required the hourly rate for a coach is Â£15 per hour', 30, 20, 1, 'Ergo Gallery.jpg'),
+(10, 'Rowing Tank', 'Public:\r\nStatic water training: Â£35\r\nMoving water training: Â£45\r\nIf a coach is required the hourly rate for a coach is Â£15 per hour\r\nStaff/Student:\r\nStatic water training: Â£30\r\nMoving water training: Â£40\r\nIf a coach is required the hourly rate for a coach is Â£15 per hour', 30, 20, 1, 'Rowing Tank.jpg'),
+(11, 'Sports Hall', 'There are multiple activites that take place in the sports hall.\r\n\r\nSquash: Â£6.00 per court per hour\r\n\r\nBadminton: Â£11.00 per court per hour\r\n\r\nBasketball: Â£27.50 per hour\r\n\r\nVolleyball: Â£27.50 per hour\r\n\r\n5 a side: Â£55.00 per hour\r\n\r\nNetball: Â£55.00 per hour\r\n\r\nCricket Nets: Â£60.00 per hour', 6, 20, 1, 'Sports Hall.jpg'),
+(12, 'Rubber Crumbs', 'Staff/Student:\r\nHalf pitch Â£20 per hour\r\nFull pitch Â£40 per hour\r\nPublic:\r\nHalf pitch Â£40 per hour\r\nFull pitch Â£80 per hour', 40, 20, 1, 'Rubber Crumbs.jpg'),
+(13, 'Artificial pitches', 'Staff/Student:\r\nHalf pitch - Â£20 per hour\r\nFull pitch Â£40 per hour\r\nPublic:\r\nHalf pitch Â£40 per hour\r\nFull pitch Â£80 per hour', 40, 20, 1, 'Artificial Pitches.jpg');
 
 -- --------------------------------------------------------
 
@@ -214,12 +203,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`UserID`, `Password`, `Email`, `Phone`, `Role`, `Firstname`, `Lastname`, `resetpasswordtime`) VALUES
 (2, '$2y$10$.wfdFWUfsvO7QQ0v6ScBQuXwXDxy5IUDMMxLh6gd8XAET41XnjaLS', '414454879@qq.com', '7851666865', 'trainer', 'z', 'chen', 0),
 (3, '$2y$10$DIUIRhmJ44GlwRmmnUzA0.sNQm6kkPtDKke3LFqW3nGvyY3IgVrBG', '123@qq.com', '123', 'admin', 'a', 'chen', 0),
-(4, '$2y$10$rsNtb0AnMDKtGih8V.WxWu539TWT90OLg8bR/u6k4.FB0sRrqRW/.', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1557793635),
-(5, '$2y$10$Hs34F6Jd6iHa7K6Qzk4i3eDkHSb9rAZk0pMmmfDRC10SCmm15ar9i', 'wanyu.hong@durham.ac.uk', '1234567', 'user', 'sha', 'se', 1557712174),
-(6, '$2y$10$NrrywEq7.CWlq6Uz7pUobu8akLJY98.ILK2d33/2FA8jmAblkEYje', 'jawaher.alharbi@yahoo.com', '0123456789', 'admin', 'Jawaher', 'Alharbi', 0),
-(7, '$2y$10$EX4zyXwWP6OV2CEhN.2EPu/UeB6k2BN4kJqb1FZCyOwIPWl7VuL7S', 'test@yahoo.com', '123', 'user', 'Test', 'test', 0),
-(8, '$2y$10$ZvFsnzH2EOxoHQ1o39vffe5NOJq6jej05FUqP.JZAd8LOFtGL6U.q', 'chen.pan2@durham.ac.uk', '+447384752845', 'user', 'ollie', 'p', 0),
-(9, '$2y$10$WHqXGNUWiBga2Lepz/ZTyO1u3XFXockETRTlrkHjyGMDUjhbit5IC', '453514235@qq.com', '+447384755444', 'user', 'nessa', 'n', 0);
+(4, '$2y$10$rsNtb0AnMDKtGih8V.WxWu539TWT90OLg8bR/u6k4.FB0sRrqRW/.', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1557793635);
 
 --
 -- 转储表的索引
@@ -250,6 +234,12 @@ ALTER TABLE `event`
   ADD PRIMARY KEY (`EventID`);
 
 --
+-- 表的索引 `eventdates`
+--
+ALTER TABLE `eventdates`
+  ADD PRIMARY KEY (`EventDateID`);
+
+--
 -- 表的索引 `facility`
 --
 ALTER TABLE `facility`
@@ -269,37 +259,43 @@ ALTER TABLE `user`
 -- 使用表AUTO_INCREMENT `blockbookings`
 --
 ALTER TABLE `blockbookings`
-  MODIFY `BlockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `BlockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- 使用表AUTO_INCREMENT `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- 使用表AUTO_INCREMENT `bookingdates`
 --
 ALTER TABLE `bookingdates`
-  MODIFY `BookDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `BookDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=433;
 
 --
 -- 使用表AUTO_INCREMENT `event`
 --
 ALTER TABLE `event`
-  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- 使用表AUTO_INCREMENT `eventdates`
+--
+ALTER TABLE `eventdates`
+  MODIFY `EventDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用表AUTO_INCREMENT `facility`
 --
 ALTER TABLE `facility`
-  MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 使用表AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

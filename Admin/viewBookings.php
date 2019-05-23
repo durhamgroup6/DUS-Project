@@ -15,7 +15,7 @@ if(isset($_GET['id'])){
         $UserData = $user->fetch(PDO::FETCH_ASSOC);
         $email = $UserData['Email'];
         $subject = 'Booking Cancellation';
-        $body = '<p>Dear, </p> <p>'.$UserData['Firstname'].' </p> <p>This is to inform you that your booking for '.$UserData['FacilityName'].' facility from '.$UserData['StartTime'].' to '.$UserData['EndTime'].' is cancelled on your request <p>Thanks</p><p>Team Durham</p>';
+        $body = '<p>Dear, </p> <p>'.$UserData['Firstname'].' </p> <p>This is to inform you that your booking for '.$UserData['FacilityName'].' facility from '.$UserData['StartTime'].' to '.$UserData['EndTime'].' is cancelled on your request <p>Thanks</p><p>Team Durhum</p>';
         sendmail($email, $subject, $body);
         echo '<script>alert("Booking Cancelled successfully!");</script>';
         ?>

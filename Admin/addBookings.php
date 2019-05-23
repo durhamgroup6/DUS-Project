@@ -10,11 +10,10 @@ if(isset($_POST['submit'])){
     $facility=filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_NUMBER_INT);
     $event=filter_input(INPUT_POST, 'event', FILTER_SANITIZE_NUMBER_INT);
     $userid=filter_input(INPUT_POST, 'user', FILTER_SANITIZE_NUMBER_INT);
-    $start=filter_input(INPUT_POST, 'start', FILTER_SANITIZE_STRING);
-    $end=filter_input(INPUT_POST, 'end', FILTER_SANITIZE_STRING);
+    $start=filter_input(INPUT_POST, 'start', FILTER_SANITIZE_NUMBER_INT);
+    $end=filter_input(INPUT_POST, 'end', FILTER_SANITIZE_NUMBER_INT);
     $price=filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
-    $dates=$_POST['dates'];
-    $color=$_POST['color'];
+    $date=filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING);;
     if(trim($facility)==""){
         ?>
         <script>
@@ -39,7 +38,7 @@ if(isset($_POST['submit'])){
         </script>
         <?php
     }
-    elseif (trim($dates)==""){
+    elseif (trim($date)==""){
         ?>
         <script>
             window.alert("Please select dates!");
@@ -60,16 +59,31 @@ if(isset($_POST['submit'])){
             history.go(-1);
         </script>
         <?php
-    }else {
-        $cf = "SELECT COUNT(BookingID) AS count, facility.`Capacity` FROM booking LEFT JOIN facility ON facility.`FacilityID` = booking.`FacilityID` WHERE booking.FacilityID = 6 AND booking.`is_cancel`=0";
+    }elseif ($end < $start){
+        ?>
+        <script>
+            window.alert("Please select end time greater than start time!");
+            history.go(-1);
+        </script>
+        <?php
+    }
+    else {
+        if ($facility == 3) {
+            $color = "yellow";
+        } else if ($facility == 4) {
+            $color = "blue";
+        } else if ($facility == 5) {
+            $color = "pink";
+        } else if ($facility == 6) {
+            $color = "orange";
+        }
+        $cf = "SELECT COUNT(BookDateID) AS count, facility.`Capacity` FROM booking LEFT JOIN facility ON facility.FacilityID = booking.FacilityID LEFT JOIN bookingdates ON bookingdates.BookingID= booking.BookingID WHERE booking.FacilityID = " . $facility . " AND booking.`is_cancel`=0";
         $Fcount = $pdo->query($cf);
         $FasCount = $Fcount->fetch(PDO::FETCH_ASSOC);
-        if ($FasCount['count'] < $FasCount['Capacity']) {
-            $string = preg_replace('/\.$/', '', $dates);
-            $array = explode(',', $string);
-            $length = count($array);
-            $startDate = $array[0] . ' ' . $start;
-            $endDate = $array[$length - 1] . ' ' . $end;
+        $countck = ($end-$start)+$FasCount['count'];
+        if ($FasCount['count']==0 || $countck <= $FasCount['Capacity']) {
+            $startDate = $date . ' ' . $start;
+            $endDate = $date . ' ' . $end;
             $stmt = "INSERT into booking (UserID, Price,StartTime,EndTime, FacilityID, color) VALUE (" . $userid . "," . $price . ", '" . $startDate . "','" . $endDate . "'," . $facility . ",'" . $color . "')";
             $pdo->exec($stmt);
             if ($pdo->lastInsertId() != null) {
@@ -79,9 +93,10 @@ if(isset($_POST['submit'])){
                 $booking = $pdo->query($stmtboo);
                 $bookingID = $booking->fetch(PDO::FETCH_ASSOC);
                 if (count($bookingID) > 0) {
-                    foreach ($array as $value) //loop over values
+                    for ($time = $start; $time < $end; $time++) //loop over values
                     {
-                        $bulkArr .= '' . $comm . '(' . $bookingID['BookingID'] . ',"' . $value . ' ' . $start . '", "' . $value . ' ' . $end . '")';
+                        $time2 = $time+1;
+                        $bulkArr .= '' . $comm . '(' . $bookingID['BookingID'] . ',"' . $date . ' ' . $time . '", "' . $date . ' ' . $time2 . '")';
                         $comm = ',';
                     }
                     $stmt = "INSERT into bookingdates (BookingID, StartTime, EndTime) VALUE " . $bulkArr . " ";
@@ -173,34 +188,27 @@ history.go(-1);</script>';
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label for="validationCustom02">Select Color</label>
-                                    <input class="form-control" style="" name="color" type="color" id="validationCustom02" required>
+                                    <label for="validationCustom02">Select Booking Date</label>
+                                    <input type="text" class="form-control date" name="date" id="validationCustom02" placeholder="Select Booking Date" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
                                 </div>
-                                <div class="col-md-10 mb-3">
-                                    <label for="validationCustom02">Select Booking Dates</label>
-                                    <input type="text" class="form-control date" name="dates" id="validationCustom02" placeholder="Pick the multiple dates" required>
-                                    <div class="valid-feedback">
-                                        Looks good!
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="validationCustom02">Start Time</label>
                                     <div class='input-group' id='datetimepicker3'>
-                                        <input type='text' class="form-control" name="start" id="validationCustom02" placeholder="Pick the multiple dates" required/>
+                                        <input type='text' class="form-control" name="start" id="validationCustom02" placeholder="Start time" required/>
                                         <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
+                                        <span class="glyphicon glyphicon-time"></span>
                                     </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="validationCustom02">End Time</label>
                                     <div class='input-group' id='datetimepicker4'>
-                                        <input type='text' class="form-control" name="end" id="validationCustom02" placeholder="Pick the multiple dates" required/>
+                                        <input type='text' class="form-control" name="end" id="validationCustom02" placeholder="End time" required/>
                                         <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
+                                        <span class="glyphicon glyphicon-time"></span>
                                     </span>
                                     </div>
                                 </div>
@@ -216,22 +224,10 @@ history.go(-1);</script>';
 <script>
     function FacilityDates(id){
         $.post("getBlockDates.php",{id: id},function(result){
-            /*$('#datetimepicker3').datetimepicker('destroy');
-            $('#datetimepicker3').datetimepicker({
-                format: "YYYY-MM-DD hh:mm a",
-                disabledDates: JSON.parse(result),
-                useCurrent: false
-            });
-            $('#datetimepicker4').datetimepicker('destroy');
-            $('#datetimepicker4').datetimepicker({
-                format: "YYYY-MM-DD hh:mm a",
-                disabledDates: JSON.parse(result),
-                useCurrent: false
-            });*/
             $('.date').datepicker('destroy');
                 $('.date').datepicker({
                     startDate: new Date(),
-                    multidate: true,
+                    multidate: false,
                     format: "yyyy-mm-dd",
                     daysOfWeekHighlighted: "5,6",
                     datesDisabled: result,

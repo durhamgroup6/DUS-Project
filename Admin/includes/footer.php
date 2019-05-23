@@ -34,6 +34,7 @@
 <script>
     $(document).ready(function(){
         $('.date').datepicker({
+            startDate: new Date(),
             multidate: true,
             format: "yyyy-mm-dd",
             daysOfWeekHighlighted: "5,6",
@@ -44,10 +45,10 @@
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker3').datetimepicker({
-            format: "hh:mm a"
+            format: "H"
         });
         $('#datetimepicker4').datetimepicker({
-            format: "hh:mm a"
+            format: "H"
         });
     });
 </script>

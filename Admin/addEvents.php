@@ -1,7 +1,8 @@
 <?php
 require_once('includes/header.php');
 require_once('includes/navigation.php');
-include_once "../User/database/database.php";$sql = "select FacilityID, FacilityName from facility";
+include_once "../User/database/database.php";
+$sql = "select FacilityID, FacilityName from facility";
 $facility = $pdo->query($sql);
 $sqluser = "select UserID, Firstname, Lastname from user where Role='trainer'";
 $trianer = $pdo->query($sqluser);
@@ -10,15 +11,16 @@ if(isset($_POST['submit'])){
     $facility=filter_input(INPUT_POST, 'facility', FILTER_SANITIZE_NUMBER_INT);
     $trainer=filter_input(INPUT_POST, 'trainer', FILTER_SANITIZE_NUMBER_INT);
     $capacity=filter_input(INPUT_POST, 'capacity', FILTER_SANITIZE_NUMBER_INT);
-    $start=filter_input(INPUT_POST, 'startdate', FILTER_SANITIZE_STRING);
-    $end=filter_input(INPUT_POST, 'enddate', FILTER_SANITIZE_STRING);
+    $dates=filter_input(INPUT_POST, 'dates', FILTER_SANITIZE_STRING);
+    $start=filter_input(INPUT_POST, 'start', FILTER_SANITIZE_STRING);
+    $end=filter_input(INPUT_POST, 'end', FILTER_SANITIZE_STRING);
     $description=filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $weekDay=filter_input(INPUT_POST, 'weekDay', FILTER_SANITIZE_NUMBER_INT);
-    $color=$_POST['color'];
+    $color='#3c763d';
     if(empty($trainer)){
         $trainer = 'NULL';
     }
-    if($weekDay == "null"){
+    if($weekDay == 0){
         $weekDay = 'NULL';
     }
     if(trim($name)==""){
@@ -68,16 +70,39 @@ if(isset($_POST['submit'])){
         </script>
         <?php
     }else{
-        $stmt = "INSERT into event (EventName, TrainerID, StartDate, EndDate, Capacity, Description, FacilityID, color, WeekDate) VALUE ('".$name."', ".$trainer.",'".$start."','".$end."', ".$capacity.", '".$description."',".$facility.",'".$color."',".$weekDay.")";
+        $string = preg_replace('/\.$/', '', $dates);
+        $array = explode(',', $string);
+        $length = count($array);
+        $startDate = $array[0] . ' ' . $start;
+        $endDate = $array[$length - 1] . ' ' . $end;
+        $stmt = "INSERT into event (EventName, TrainerID, StartDate, EndDate, Capacity, Description, FacilityID, color, WeekDate) VALUE ('".$name."', ".$trainer.",'".$startDate."','".$endDate."', ".$capacity.", '".$description."',".$facility.",'".$color."',".$weekDay.")";
         $pdo->exec($stmt);
         if($pdo->lastInsertId()!=null){
-            echo '<script>alert("Event added successfully!");</script>';
-            ?>
-            <script>
-                window.location.href = 'viewEvents.php';
-            </script>
-            <?php
-        }else{
+            $bulkArr = '';
+            $comm = '';
+            $stmtboo = "Select EventID from event ORDER BY EventID DESC LIMIT 1";
+            $event = $pdo->query($stmtboo);
+            $eventID = $event->fetch(PDO::FETCH_ASSOC);
+            if (count($eventID) > 0) {
+                foreach ($array as $value) //loop over values
+                {
+                    $bulkArr .= '' . $comm . '(' . $eventID['EventID'] . ',"' . $value . ' ' . $start . '", "' . $value . ' ' . $end . '")';
+                    $comm = ',';
+                }
+                $stmt = "INSERT into eventdates (EventID, StartTime, EndTime) VALUE " . $bulkArr . " ";
+                $pdo->exec($stmt);
+                if ($pdo->lastInsertId() != null) {
+                    echo '<script>alert("Event added successfully!");</script>';
+                    ?>
+                    <script>
+                        window.location.href = 'viewEvents.php';
+                    </script>
+                    <?php
+                }
+            }else {
+                echo '<script>alert("Error adding Event!");</script>';
+            }
+        } else {
             echo '<script>alert("Error adding Event!");</script>';
         }
     }
@@ -167,32 +192,36 @@ if(isset($_POST['submit'])){
                                         <option value="4"> Every Thursday</option>
                                         <option value="5"> Every Friday</option>
                                         <option value="6"> Every Saturday</option>
-                                        <option value="0"> Every Sunday</option>
-                                        <option value="null"> Every Day</option>
+                                        <option value="7"> Every Sunday</option>
+                                        <option value="0"> Every Day</option>
                                     </select>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
                                 </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="validationCustom02">Start Date</label>
-                                    <input class="form-control" name="startdate" type="datetime-local" placeholder="select start date" id="validationCustom02" required>
+                                <div class="col-md-9 mb-3">
+                                    <label for="validationCustom02">Select Booking Dates</label>
+                                    <input type="text" class="form-control date" name="dates" id="validationCustom02" placeholder="Pick the multiple dates" required>
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label for="validationCustom02">End Date</label>
-                                    <input class="form-control" name="enddate" type="datetime-local" placeholder="select start date" id="validationCustom02" required>
-                                    <div class="valid-feedback">
-                                        Looks good!
+                                    <label for="validationCustom02">Start Time</label>
+                                    <div class='input-group' id='datetimepicker3'>
+                                        <input type='text' class="form-control" name="start" id="validationCustom02" placeholder="Start time" required/>
+                                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label for="validationCustom02">Select Color</label>
-                                    <input class="form-control" style="height:46px;" name="color" type="color" value="" id="validationCustom02" required>
-                                    <div class="valid-feedback">
-                                        Looks good!
+                                    <label for="validationCustom02">End Time</label>
+                                    <div class='input-group' id='datetimepicker4'>
+                                        <input type='text' class="form-control" name="end" id="validationCustom02" placeholder="End time" required/>
+                                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">

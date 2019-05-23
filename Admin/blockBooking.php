@@ -32,6 +32,7 @@ if(isset($_POST['submit'])){
     }else {
         $string = preg_replace('/\.$/', '', $_POST['dates']); //Remove dot at end if exists
         $array = explode(',', $string);
+        $comm = '';
         foreach ($array as $value) //loop over values
         {
             $bulkArr .= '' . $comm . '(' . $facilityId . ',"'.$color.'","' . $value.' '.$start.'","' . $value.' '.$end . '" )';

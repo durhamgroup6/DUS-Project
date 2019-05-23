@@ -13,10 +13,11 @@ Welcome to the Durham Group 6 Project
 
 4.Execute index.php, you can enter member system or admin system, you can register new account or using old account.
 Member account:
-(Email: xxxx, password:xxxxx  )
+(Email: 649965979@qq.com, password:123  )
+(Email: 414454879@qq.com, password:123  )
 
 Admin account:
-(Email: xxxx, password:xxxxx  )
+(Email: 123@qq.com, password:123  )
 
 
 6. For the member system:
