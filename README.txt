@@ -6,6 +6,7 @@ Welcome to the Durham Group 6 Project
 
 
 2.Before using this project, you should import the database named as teamdurham.sql,this project PHP version is 7.3.2
+and open your Apache server(eg. Xampp, MAMP)
 
 
 3.Execute this project by the php compiler or put this project folder into your server's folder named as htdocs and then enter localhost/"this project's folder's name"/index.php in your web browser
