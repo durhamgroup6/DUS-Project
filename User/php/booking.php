@@ -205,17 +205,24 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Book!") {
             $firstname = $_SESSION['user']['Firstname'];
             $email = $_SESSION['user']['Email'];
             $end = date('Y-m-d H:i:s', strtotime("'.$howLong.' hour", strtotime($startTime)));
-            $result = sendmail($firstname, $email, $totalPrice, $facilityName, $start, $startTime);
-            if ($result == 1) {//send email successfully
-                echo '<script>
+            //$result = sendmail($firstname, $email, $totalPrice, $facilityName, $start, $startTime);
+            sendmail($firstname, $email, $totalPrice, $facilityName, $start, $startTime);
+            echo '<script>
             window.alert("book the facility successfully! The booking confirmation will send you by email,please check");
             window.location.href = "../../index.php";</script>';
-            } else {
-                echo '<script>window.alert("book the facility unsuccessfully!");
+        }else{
+            echo '<script>window.alert("book the facility unsuccessfully!");
                         window.location.href = "../../index.php";</script>';
-            }
         }
-    }
+//            if ($result == 1) {//send email successfully
+//                echo '<script>
+//            window.alert("book the facility successfully! The booking confirmation will send you by email,please check");
+//            window.location.href = "../../index.php";</script>';
+//            } else {
+//                echo '<script>window.alert("book the facility unsuccessfully!");
+//                        window.location.href = "../../index.php";</script>';
+//            }
+        }
 }
 
 function sendmail($firstname, $email, $price, $facility, $start, $end)
