@@ -216,7 +216,7 @@ INSERT INTO `user` (`UserID`, `Password`, `Email`, `Phone`, `Role`, `Firstname`,
 (3, '$2y$10$DIUIRhmJ44GlwRmmnUzA0.sNQm6kkPtDKke3LFqW3nGvyY3IgVrBG', '123@qq.com', '123', 'admin', 'a', 'chen', 0),
 (4, '$2y$10$rsNtb0AnMDKtGih8V.WxWu539TWT90OLg8bR/u6k4.FB0sRrqRW/.', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1557793635),
 (5, '$2y$10$Hs34F6Jd6iHa7K6Qzk4i3eDkHSb9rAZk0pMmmfDRC10SCmm15ar9i', 'wanyu.hong@durham.ac.uk', '1234567', 'user', 'sha', 'se', 1557712174),
-(6, '$2y$10$NrrywEq7.CWlq6Uz7pUobu8akLJY98.ILK2d33/2FA8jmAblkEYje', 'admin@durham.com', '03125263194', 'admin', 'Awan', 'Zain', 0),
+(6, '$2y$10$NrrywEq7.CWlq6Uz7pUobu8akLJY98.ILK2d33/2FA8jmAblkEYje', 'jawaher.alharbi@yahoo.com', '0123456789', 'admin', 'Jawaher', 'Alharbi', 0),
 (7, '$2y$10$EX4zyXwWP6OV2CEhN.2EPu/UeB6k2BN4kJqb1FZCyOwIPWl7VuL7S', 'test@yahoo.com', '123', 'user', 'Test', 'test', 0),
 (8, '$2y$10$ZvFsnzH2EOxoHQ1o39vffe5NOJq6jej05FUqP.JZAd8LOFtGL6U.q', 'chen.pan2@durham.ac.uk', '+447384752845', 'user', 'ollie', 'p', 0),
 (9, '$2y$10$WHqXGNUWiBga2Lepz/ZTyO1u3XFXockETRTlrkHjyGMDUjhbit5IC', '453514235@qq.com', '+447384755444', 'user', 'nessa', 'n', 0);
