@@ -5,7 +5,7 @@ $id = $_GET['id'];
 
 if (isset($_GET['type']) && $_GET['type'] == "event") {
     $id = $_GET['id'];
-    $sql_event = "SELECT e.EventID,e.EventName,e.Description,e.StartDate,e.EndDate,f.FacilityName,u.Email,u.Phone,u.Firstname,u.Lastname from event as e LEFT JOIN user as u on e.TrainerID = u.UserID left JOIN facility as f ON e.FacilityID = f.FacilityID WHERE e.EventID = '$id'";
+    $sql_event = "SELECT e.EventID,e.EventName,e.Description,e.StartDate,e.EndDate,f.FacilityName,u.Email,u.Phone,u.Firstname,u.Lastname from event as e LEFT JOIN eventdates as ed on e.EventID=ed.EventID LEFT JOIN user as u on e.TrainerID = u.UserID left JOIN facility as f ON e.FacilityID = f.FacilityID WHERE ed.EventDateID = '$id'";
     $result = $pdo->query($sql_event);
     $row = $result->fetch(PDO::FETCH_ASSOC);
     if ($row) {
