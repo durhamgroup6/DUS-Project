@@ -12,7 +12,7 @@ if(isset($_REQUEST['id'])){
 $BlockDates = $pdo->query($sql);
 $datesArr = [];
 while ($row = $BlockDates->fetch(PDO::FETCH_ASSOC)) {
-    $row['textColor'] = 'white';
+    $row['textColor'] = 'black';
     array_push($datesArr, $row);
 }
 print_r(json_encode($datesArr));
