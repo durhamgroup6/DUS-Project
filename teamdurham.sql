@@ -117,12 +117,12 @@ INSERT INTO `bookingdates` (`BookDateID`, `BookingID`, `StartTime`, `EndTime`) V
 
 -- --------------------------------------------------------
 
---
--- 表的结构 `event`
---
+/*Table structure for table `event` */
+
+DROP TABLE IF EXISTS `event`;
 
 CREATE TABLE `event` (
-  `EventID` int(11) NOT NULL,
+  `EventID` int(11) NOT NULL AUTO_INCREMENT,
   `EventName` text CHARACTER SET utf8 NOT NULL,
   `TrainerID` int(11) DEFAULT NULL,
   `Capacity` int(11) NOT NULL,
@@ -131,19 +131,33 @@ CREATE TABLE `event` (
   `EndDate` datetime NOT NULL,
   `WeekDate` int(11) DEFAULT NULL,
   `FacilityID` int(11) NOT NULL,
-  `color` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `color` varchar(20) NOT NULL,
+  PRIMARY KEY (`EventID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
---
--- 转存表中的数据 `event`
---
+/*Data for the table `event` */
 
-INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Description`, `StartDate`, `EndDate`, `WeekDate`, `FacilityID`, `color`) VALUES
-(1, 'dance', 2, 3, 'love u', '2019-05-09 17:00:00', '2019-05-31 18:00:00', 4, 3, 'green'),
-(3, 'match', 2, 10, 'bvukmfdbjikjdmc', '2019-05-18 00:00:00', '2019-05-19 00:00:00', NULL, 5, '#00ff80'),
-(4, 'match', 2, 10, 'hgnyuhkjl', '2019-05-20 00:00:00', '2019-05-21 00:00:00', NULL, 6, '#ffff00'),
-(5, 'Test', 2, 20, 'Test', '2019-05-21 10:00:00', '2019-05-21 12:00:00', NULL, 8, '#00f900');
+insert  into `event`(`EventID`,`EventName`,`TrainerID`,`Capacity`,`Description`,`StartDate`,`EndDate`,`WeekDate`,`FacilityID`,`color`) values 
+(7,'match',2,50,'Test','2019-05-22 08:00:00','2019-05-24 10:00:00',4,3,'#3c763d');
 
+-- --------------------------------------------------------
+
+/*Table structure for table `eventdates` */
+
+DROP TABLE IF EXISTS `eventdates`;
+
+CREATE TABLE `eventdates` (
+  `EventDateID` int(11) NOT NULL AUTO_INCREMENT,
+  `EventID` int(11) DEFAULT NULL,
+  `StartTime` datetime DEFAULT NULL,
+  `EndTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`EventDateID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+/*Data for the table `eventdates` */
+
+insert  into `eventdates`(`EventDateID`,`EventID`,`StartTime`,`EndTime`) values 
+(4,7,'2019-05-22 08:00:00','2019-05-22 10:00:00'),(5,7,'2019-05-23 08:00:00','2019-05-23 10:00:00'),(6,7,'2019-05-24 08:00:00','2019-05-24 10:00:00');
 -- --------------------------------------------------------
 
 --
