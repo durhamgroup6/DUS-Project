@@ -18,7 +18,7 @@ if(isset($_POST['submit'])){
     if(empty($trainer)){
         $trainer = 'NULL';
     }
-    if($weekDay == 0){
+    if($weekDay == "null"){
         $weekDay = 'NULL';
     }
     if(trim($name)==""){
@@ -167,8 +167,8 @@ if(isset($_POST['submit'])){
                                         <option value="4"> Every Thursday</option>
                                         <option value="5"> Every Friday</option>
                                         <option value="6"> Every Saturday</option>
-                                        <option value="7"> Every Sunday</option>
-                                        <option value="0"> Every Day</option>
+                                        <option value="0"> Every Sunday</option>
+                                        <option value="null"> Every Day</option>
                                     </select>
                                     <div class="valid-feedback">
                                         Looks good!

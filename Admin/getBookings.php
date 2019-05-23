@@ -1,19 +1,63 @@
 <?php
-include_once "../User/database/database.php";
-?>
+include_once('../User/database/database.php');//connect database
 
-<?php
-if(isset($_REQUEST['id'])){
-    $id = $_REQUEST['id'];
-    $sql = "SELECT booking.BookingID AS id, FacilityName AS title, bookingdates.StartTime AS start, bookingdates.EndTime AS end, booking.color FROM facility LEFT JOIN booking ON facility.`FacilityID` = booking.`FacilityID` LEFT JOIN bookingdates ON bookingdates.`BookingID` = booking.`BookingID` WHERE bookingdates.`BookDateID` IS NOT NULL AND booking.`is_cancel`=0 AND facility.`FacilityID` = ".$id." UNION SELECT facility.FacilityID AS id, FacilityName AS title, StartTime AS start, EndTime AS end, blockbookings.`color` FROM facility LEFT JOIN blockbookings ON blockbookings.`FacilityID` = facility.`FacilityID` WHERE BlockID IS NOT NULL AND facility.`FacilityID` = ".$id." UNION SELECT event.EventID AS id, EventName AS title, event.StartDate AS start, event.EndDate AS end, event.`color` FROM facility LEFT JOIN event ON event.`FacilityID` = facility.`FacilityID` WHERE event.EventID IS NOT NULL AND facility.`FacilityID` = ".$id."";
-}else{
-    $sql = "SELECT booking.BookingID AS id, FacilityName AS title, bookingdates.StartTime AS start, bookingdates.EndTime AS end, booking.color FROM facility LEFT JOIN booking ON facility.`FacilityID` = booking.`FacilityID` LEFT JOIN bookingdates ON bookingdates.`BookingID` = booking.`BookingID` WHERE bookingdates.`BookDateID` IS NOT NULL AND booking.`is_cancel`=0 UNION SELECT facility.FacilityID AS id, FacilityName AS title, StartTime AS start, EndTime AS end, blockbookings.`color` FROM facility LEFT JOIN blockbookings ON blockbookings.`FacilityID` = facility.`FacilityID` WHERE BlockID IS NOT NULL UNION SELECT event.EventID AS id,EventName AS title, event.StartDate AS start, event.EndDate AS end, event.`color` FROM facility LEFT JOIN event ON event.`FacilityID` = facility.`FacilityID` WHERE event.EventID IS NOT NULL";
+$sql_event = "select * from event";
+$sql_blockbooking = "select * from blockbookings as b left join facility as f on b.facilityID = f.FacilityID";
+$sql_book = "SELECT bd.StartTime,bd.EndTime,bd.BookDateID,b.Price,f.FacilityName,b.is_cancel,u.Firstname,u.Lastname,b.color FROM bookingdates as bd left join booking as b on bd.BookingID=b.BookingID LEFT join facility as f on f.FacilityID=b.FacilityID left JOIN user as u on u.UserID=b.UserID where b.is_cancel='0'";
+$result_event = $pdo->query($sql_event);
+$result_block = $pdo->query($sql_blockbooking);
+$result_book = $pdo->query($sql_book);
+while ($row = $result_event->fetch(PDO::FETCH_ASSOC)) {
+//    $allday = $row['allday'];
+//    $is_allday = $allday==1?true:false;
+    $start_d = date("Y-m-d", strtotime($row['StartDate']));
+    $start_t = date("H:i:s", strtotime($row['StartDate']));
+    $end_d = date("Y-m-d", strtotime($row['EndDate']));
+    $end_t = date("H:i:s", strtotime($row['EndDate']));
+    if($row['WeekDate']!=null) {
+        $data[] = array(
+            'id' => $row['EventID'],//event id
+            'title' => $row['EventName'],//event name
+            'start' =>$start_t,//event start date time
+            'end' => $start_t,//event start date time
+            'color' => $row['color'],
+            'daysOfWeek' => [$row['WeekDate']],
+            'startRecur' => $start_d,
+            'endRecur' => $end_d,
+            'type'=>"event"
+        );
+    }else{
+        $data[] = array(
+            'id' => $row['EventID'],//event id
+            'title' => $row['EventName'],//event name
+            'start' => $row['StartDate'],//event start date time
+            'end' => $row['EndDate'],//event start date time
+            'color' => $row['color'],
+            'type'=>"event"
+        );
+    }
 }
-$BlockDates = $pdo->query($sql);
-$datesArr = [];
-while ($row = $BlockDates->fetch(PDO::FETCH_ASSOC)) {
-    $row['textColor'] = 'white';
-    array_push($datesArr, $row);
+while ($row = $result_book->fetch(PDO::FETCH_ASSOC)) {
+    $data[] = array(
+        'id' => $row['BookDateID'],//event id
+        'title' => $row['FacilityName'],//event name
+        'start' => $row['StartTime'],//event start date time
+        'end' => $row['EndTime'],//event start date time
+        'color' => $row['color'],
+        'type'=>"book"
+    );
 }
-print_r(json_encode($datesArr));
+
+while ($row = $result_block->fetch(PDO::FETCH_ASSOC)) {
+    $data[] = array(
+        'id' => $row['BlockID'],//block id
+        'title' => $row['FacilityName'],//facility name
+        'start' => $row['StartTime'],//event start date time
+        'end' => $row['EndTime'],//event start date time
+        'color' => $row['color'],
+        'type'=>"block"
+    );
+
+}
+echo json_encode($data);
 ?>
