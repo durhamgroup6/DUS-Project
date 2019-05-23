@@ -27,7 +27,7 @@ function showfacilities()
                     <th style="font-size: 1.8em">' . $row['FacilityName'] . '</th>
                     </tr>
                     <tr>
-                    <td style="font-size: 1.2em"><textarea name="reworkmes" style="overflow:scroll; overflow-x: hidden;" readonly>' . $row['Description'] . '</textarea></td>
+                    <td style="font-size: 1.2em"><textarea name="reworkmes" style="overflow:scroll; overflow-x: hidden;" rows="5" readonly>' . $row['Description'] . '</textarea></td>
                     </tr></table></div>';
         echo '</div>';
     }
@@ -35,7 +35,7 @@ function showfacilities()
 
 function showmybookings($userid){
     $pdo = make_database_connection();
-    $sql = "select * from bookingdates as bb left join booking as b on bb.BookingID = b.BookingID left join facility as f on b.FacilityID = f.FacilityID where b.UserID ='$userid' order by bb.StartTime";
+    $sql = "select * from booking as b left join facility as f on b.FacilityID = f.FacilityID where b.UserID ='$userid' order by b.StartTime";
     $bookings = $pdo->query($sql);
     echo '<div align="center">
                     <table style="width:100%;text-align: center">

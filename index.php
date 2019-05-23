@@ -436,9 +436,17 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 margin-left: 25%;
  width: 50%;
  height: 50%;
- }</style>
+ }
+  @media screen and (max-device-width: 375px) {
+  .image{
+margin-left: 2%;
+ width: 100%;
+ height: 100%;
+ }
+  }
+ </style>
     <td><div class="image"><img src="Admin/facilityImages/' . $image . '"></div></td>
-    <td><textarea style="width: 100%;height: 100%" rows="5">' . $row['Description'] . '</textarea></td>    
+    <td><textarea style="width: 100%;height: 100%" rows="5" readonly>' . $row['Description'] . '</textarea></td>    
     </tr></table></div>';
             }
 
@@ -455,7 +463,7 @@ margin-left: 25%;
     <td>' . $row['EventName'] . '</td>
     <td>' . $row['Firstname'] . ' ' . $row['Lastname'] . '</td>
     <td>' . $row['Email'] . '<br> ' . $row['Phone'] . '</td>
-     <td><textarea style="width: 100%;height: 100%" rows="5">' . $row['Description'] . '</textarea></td>    
+     <td><textarea style="width: 100%;height: 100%" rows="5" readonly>' . $row['Description'] . '</textarea></td>    
     </tr></table></div>';
             }
         } else {
