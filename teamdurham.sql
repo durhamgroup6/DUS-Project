@@ -59,7 +59,7 @@ INSERT INTO `blockbookings` (`BlockID`, `FacilityID`, `color`, `StartTime`, `End
 --
 
 CREATE TABLE `booking` (
-  `BookingID` int(11) NOT NULL,
+  `BookingID` int(11) NOT NULL AUTO_INCREMENT,
   `UserID` int(20) NOT NULL,
   `StartTime` datetime DEFAULT NULL,
   `EndTime` datetime DEFAULT NULL,
