@@ -161,6 +161,32 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
             padding: 0 10px;
         }
 
+        #popBox {
+            display: none;
+            background-color: #FFFFFF;
+            z-index: 11;
+            max-width: 700px;
+            top:0;
+            right:0;
+            left:0;
+            bottom:0;
+            margin:auto;
+            padding: 2em;
+            position: relative;
+            text-align: center;
+        }
+
+        #popBox .close{
+            text-align: right;
+            margin-right: 5px;
+            background-color: #F8F8F8;
+        }
+
+        #popBox .close a {
+            text-decoration: none;
+            color: #2D2C3B;
+        }
+
     </style>
     <script src="js/belatedPNG.js"></script>
     <script>
@@ -305,6 +331,68 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != null) {
 
     <div class="container" style="">
         <div id="homeheader">
+            <input type="button" name="popBox" value="User Guidance" onclick="popBox()" style="width: 35%;
+        border: 0.8px solid #8636d2;
+        font-size: 1em;
+        color: #fff;
+        outline: none;
+        font-weight: 600;
+        background: #8636d2;
+        border-radius: 3px;
+        border-left: 5px solid #8636d2;
+        border-right: 5px solid #8636d2;
+        transition: 0.5s all;
+        -webkit-transition: 0.5s all;
+        -moz-transition: 0.5s all;
+        -o-transition: 0.5s all;
+        position: relative;
+        -ms-transition: 0.5s all;">
+            <div id="popLayer"></div>
+            <div id="popBox">
+                <div class="close">
+                    <a href="javascript:void(0)" onclick="closeBox()">Close</a>
+                </div>
+                <div class="content">
+                    <h1>Guideline</h1>
+                    <p>After reading this guidance, you can easily know how to use the online booking system. It might take about 3-5 mins to read it.</p>
+                    <p> 1.	Create New Accounts/Login</p>
+                    Go to the homepage. After clicking ‘Login/Register’ in the Navigation Bar or ‘Login/Sign up’ in the bottom of the website, you’ll see the register/Login pop-up box. Fill in your information and confirm to register a new account. Remember all the information are needed. If you already have an account, provide the email address and password to login.
+
+                    <p> 2.	Recover Account Password</p>
+                    Go to the homepage. After clicking ‘Login/Register’ in the Navigation Bar or ‘Login/Sign up’ in the bottom of the website, you’ll see the register/Login pop-up box. Press the ‘Forget the password’ to reset your password. You’ll receive an email and a link which is valid for only 24-hour will sent to you to set up a new password.
+                    <p> 3.	Modify User Account Information</p>
+                    You can modify your account details after login. Click ‘Personal Details’ in the Navigation Bar to enter a new page, which can adjust your account details. A notification email will also be sent to you if you change the information.
+                    <p> 4.	Search Website</p>
+                    There is a search box in the homepage which can help you quickly find the information you want.
+                    <p> 5.	View Facility Information</p>
+                    There is a list of facilities provided in the homepage. You can see the facilities’ pictures and information.
+                    <p> 6.	View Flexible Calendar</p>
+                    There is a flexible calendar provided in the homepage. You can see the existing bookings and activities details via daily, weekly and monthly views. For the calendar color, Green means flexible classes or sessions, Red means the period are blocked for Booking and Other Color all existing Facility Bookings.
+                    <p> 7.	Check Account Booking</p>
+                    You can check your booking record after login. Click ‘My Bookings’ in the Navigation Bar to enter a new page to see your booking details.
+                    <p> 8.	Book Facilities</p>
+                    You can use the homepage calendar to make a facility booking. Click the available time on the calendar only once, you’ll see a booking pop-up box. Fill all the booking details (No blanks accepted) and submit request. If you book successfully, a confirmation email with booking cost will send to you.
+                    <p> 9.Ask for help</p>
+                    If you have any problem, you can contact us by clicking ’Contact’ in the Navigation Bar to see all our contact information.
+                </div>
+            </div>
+            <script>
+                /*点击弹出按钮*/
+                function popBox() {
+                    var popBox = document.getElementById("popBox");
+                    var popLayer = document.getElementById("popLayer");
+                    popBox.style.display = "block";
+                    popLayer.style.display = "block";
+                };
+
+                /*点击关闭按钮*/
+                function closeBox() {
+                    var popBox = document.getElementById("popBox");
+                    var popLayer = document.getElementById("popLayer");
+                    popBox.style.display = "none";
+                    popLayer.style.display = "none";
+                }
+            </script>
             <h2>
                 <div class="banner-form">
                     <form class="search_form" action="" method="post">
@@ -413,6 +501,7 @@ margin-left: 25%;
             echo '<a href="User/Contact.php">Contact</a> | <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Login/Sign up</a>';
         }
         ?>
+
         <div class="clear"></div>
     </div>
     <div id="credits">
