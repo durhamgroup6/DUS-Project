@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2019-05-24 00:17:27
+-- 生成日期： 2019-05-25 08:09:30
 -- 服务器版本： 10.1.38-MariaDB
 -- PHP 版本： 7.3.2
 
@@ -44,7 +44,15 @@ INSERT INTO `blockbookings` (`BlockID`, `FacilityID`, `color`, `StartTime`, `End
 (17, 4, '#FF0000', '2019-05-20 08:00:00', '2019-05-20 09:00:00'),
 (18, 4, '#FF0000', '2019-05-21 08:00:00', '2019-05-21 09:00:00'),
 (20, 6, '#FF0000', '2019-05-23 04:00:00', '2019-05-23 06:00:00'),
-(21, 6, '#FF0000', '2019-05-24 04:00:00', '2019-05-24 06:00:00');
+(21, 6, '#FF0000', '2019-05-24 04:00:00', '2019-05-24 06:00:00'),
+(22, 4, '#FF0000', '2019-05-25 10:00:00', '2019-05-25 12:00:00'),
+(23, 4, '#FF0000', '2019-05-26 10:00:00', '2019-05-26 12:00:00'),
+(24, 4, '#FF0000', '2019-05-27 10:00:00', '2019-05-27 12:00:00'),
+(25, 4, '#FF0000', '2019-05-28 10:00:00', '2019-05-28 12:00:00'),
+(26, 4, '#FF0000', '2019-05-26 09:00:00', '2019-05-26 10:00:00'),
+(27, 4, '#FF0000', '2019-05-27 09:00:00', '2019-05-27 10:00:00'),
+(28, 4, '#FF0000', '2019-05-28 09:00:00', '2019-05-28 10:00:00'),
+(29, 4, '#FF0000', '2019-05-29 09:00:00', '2019-05-29 10:00:00');
 
 -- --------------------------------------------------------
 
@@ -68,9 +76,15 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`BookingID`, `UserID`, `StartTime`, `EndTime`, `Price`, `FacilityID`, `is_cancel`, `color`) VALUES
-(57, 3, '2019-05-26 08:00:00', '2019-05-26 12:00:00', 10, 4, 0, 'blue'),
+(57, 3, '2019-05-26 08:00:00', '2019-05-26 12:00:00', 10, 4, 1, 'blue'),
 (58, 2, '2019-05-23 13:00:00', '2019-05-23 15:00:00', 10, 4, 0, 'blue'),
-(59, 4, '2019-05-29 08:00:00', '2019-05-29 09:00:00', 12, 5, 1, 'pink');
+(59, 4, '2019-05-29 08:00:00', '2019-05-29 09:00:00', 12, 5, 1, 'pink'),
+(60, 4, '2019-05-29 11:00:00', '2019-05-29 13:00:00', 10.8, 3, 0, 'yellow'),
+(61, 2, '2019-10-24 07:00:00', '2019-10-24 09:00:00', 10.8, 3, 0, 'yellow'),
+(62, 2, '2019-05-27 15:00:00', '2019-05-27 16:00:00', 5.4, 3, 0, 'yellow'),
+(63, 2, '2019-05-29 11:00:00', '2019-05-29 12:00:00', 5.4, 3, 0, 'yellow'),
+(64, 2, '2019-05-30 10:00:00', '2019-05-30 11:00:00', 1, 3, 0, 'yellow'),
+(65, 2, '2019-05-31 09:00:00', '2019-05-31 12:00:00', 16.2, 3, 0, 'yellow');
 
 -- --------------------------------------------------------
 
@@ -96,7 +110,17 @@ INSERT INTO `bookingdates` (`BookDateID`, `BookingID`, `StartTime`, `EndTime`) V
 (429, 57, '2019-05-26 11:00:00', '2019-05-26 12:00:00'),
 (430, 58, '2019-05-23 13:00:00', '2019-05-23 14:00:00'),
 (431, 58, '2019-05-23 14:00:00', '2019-05-23 15:00:00'),
-(432, 59, '2019-05-29 08:00:00', '2019-05-29 09:00:00');
+(432, 59, '2019-05-29 08:00:00', '2019-05-29 09:00:00'),
+(433, 60, '2019-05-29 11:00:00', '2019-05-29 12:00:00'),
+(434, 60, '2019-05-29 12:00:00', '2019-05-29 13:00:00'),
+(435, 61, '2019-10-24 07:00:00', '2019-10-24 08:00:00'),
+(436, 61, '2019-10-24 08:00:00', '2019-10-24 09:00:00'),
+(437, 62, '2019-05-27 15:00:00', '2019-05-27 16:00:00'),
+(438, 63, '2019-05-29 11:00:00', '2019-05-29 12:00:00'),
+(439, 64, '2019-05-30 10:00:00', '2019-05-30 11:00:00'),
+(440, 65, '2019-05-31 09:00:00', '2019-05-31 10:00:00'),
+(441, 65, '2019-05-31 10:00:00', '2019-05-31 11:00:00'),
+(442, 65, '2019-05-31 11:00:00', '2019-05-31 12:00:00');
 
 -- --------------------------------------------------------
 
@@ -122,7 +146,9 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`EventID`, `EventName`, `TrainerID`, `Capacity`, `Description`, `StartDate`, `EndDate`, `WeekDate`, `FacilityID`, `color`) VALUES
-(7, 'match', 2, 50, 'bkjhiiuiuj', '2019-05-22 08:00:00', '2019-05-24 10:00:00', 4, 3, '#3c763d');
+(7, 'match', 2, 50, 'bkjhiiuiuj', '2019-05-22 08:00:00', '2019-05-24 10:00:00', 4, 3, '#3c763d'),
+(8, '123', 2, 123, '123123213', '2019-05-24 10:00:00', '2019-05-26 12:00:00', NULL, 4, '#3c763d'),
+(9, '123', 2, 123, '123124', '2019-06-25 13:00:00', '2019-06-28 15:00:00', NULL, 5, '#3c763d');
 
 -- --------------------------------------------------------
 
@@ -144,7 +170,14 @@ CREATE TABLE `eventdates` (
 INSERT INTO `eventdates` (`EventDateID`, `EventID`, `StartTime`, `EndTime`) VALUES
 (4, 7, '2019-05-22 08:00:00', '2019-05-22 10:00:00'),
 (5, 7, '2019-05-23 08:00:00', '2019-05-23 10:00:00'),
-(6, 7, '2019-05-24 08:00:00', '2019-05-24 10:00:00');
+(6, 7, '2019-05-24 08:00:00', '2019-05-24 10:00:00'),
+(7, 8, '2019-05-24 10:00:00', '2019-05-24 12:00:00'),
+(8, 8, '2019-05-25 10:00:00', '2019-05-25 12:00:00'),
+(9, 8, '2019-05-26 10:00:00', '2019-05-26 12:00:00'),
+(10, 9, '2019-06-25 13:00:00', '2019-06-25 15:00:00'),
+(11, 9, '2019-06-26 13:00:00', '2019-06-26 15:00:00'),
+(12, 9, '2019-06-27 13:00:00', '2019-06-27 15:00:00'),
+(13, 9, '2019-06-28 13:00:00', '2019-06-28 15:00:00');
 
 -- --------------------------------------------------------
 
@@ -168,7 +201,7 @@ CREATE TABLE `facility` (
 
 INSERT INTO `facility` (`FacilityID`, `FacilityName`, `Description`, `Price`, `Capacity`, `Availability`, `PicURL`) VALUES
 (3, 'Squash Courts', 'Squash Courts:  Â£6 per court, per hour.', 6, 20, 1, 'Squash Courts.jpg'),
-(4, 'Aerobics room', 'A mirrored studio is avaliable for group classes such as dance, yoga and pilates. This space can also be used for presentations and functions.\r\n\r\nAerobics Room - Â£20.00 per hour', 20, 6, 1, 'Aerobics room.jpg'),
+(4, 'Aerobics room', 'A mirrored studio is avaliable for group classes such as dance, yoga and pilates. This space can also be used for presentations and functions.\r\n\r\nAerobics Room - Â£20.00 per hour', 20, 6, 1, 'Artificial Pitches.jpg'),
 (5, 'Tennis', 'Tennis (Tarmac) -  Â£10.00 per court per hour', 10, 20, 1, 'Athletics Track.jpg'),
 (6, 'Athletics Track', 'Track -  Â£2.00 per person\r\n\r\nTrack (sole use) -  Â£30.00 per hour', 7, 20, 1, 'Athletics Track.jpg'),
 (7, 'Fitness Suite', 'The fitness suite is fully air conditioned and benefits from a wide variety of machines and equipment including Technogym resistance machines, cable systems, free weights, cardio vascular machines, TRX suspension training system, ViPR trainers and medicine balls, as well as foam rollers and exercise balls. We also have a chilled water dispenser and large screen TVs.  We have a number of fully qualified and knowledgeable members of staff who can assist with any of your needs and provide guidance with exercises or workout plans.  You will also benefit from free parking and on-site change/shower facilities.  Opening Times:  Monday to Friday 7.00 am to 10.00 pm (last entry, 9.15 pm) Saturday & Sunday  9.00 am to 6.00 pm (last entry, 5.15 pm)\r\n\r\nAddress:Durham DH1 3SE, UK\r\n\r\nEmail:Fitness.suite@dur.ac.uk\r\n\r\nPhone:1913342178', 20, 20, 1, 'Fitness Suite.jpg'),
@@ -201,9 +234,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`UserID`, `Password`, `Email`, `Phone`, `Role`, `Firstname`, `Lastname`, `resetpasswordtime`) VALUES
-(2, '$2y$10$.wfdFWUfsvO7QQ0v6ScBQuXwXDxy5IUDMMxLh6gd8XAET41XnjaLS', '414454879@qq.com', '7851666865', 'trainer', 'z', 'chen', 0),
+(2, '$2y$10$HEvTinwdaVmfuaGQHRnPcOKvm2Cc1wmDhmGLCacy20Jlz.btP64c.', '414454879@qq.com', '7851666865', 'trainer', 'zz', 'chen', 1558695830),
 (3, '$2y$10$DIUIRhmJ44GlwRmmnUzA0.sNQm6kkPtDKke3LFqW3nGvyY3IgVrBG', '123@qq.com', '123', 'admin', 'a', 'chen', 0),
-(4, '$2y$10$rsNtb0AnMDKtGih8V.WxWu539TWT90OLg8bR/u6k4.FB0sRrqRW/.', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1557793635);
+(4, '$2y$10$rsNtb0AnMDKtGih8V.WxWu539TWT90OLg8bR/u6k4.FB0sRrqRW/.', '649965979@qq.com', '11223344', 'user', 'wanyu', 'hong', 1558686475);
 
 --
 -- 转储表的索引
@@ -259,43 +292,43 @@ ALTER TABLE `user`
 -- 使用表AUTO_INCREMENT `blockbookings`
 --
 ALTER TABLE `blockbookings`
-  MODIFY `BlockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `BlockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- 使用表AUTO_INCREMENT `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- 使用表AUTO_INCREMENT `bookingdates`
 --
 ALTER TABLE `bookingdates`
-  MODIFY `BookDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=433;
+  MODIFY `BookDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=443;
 
 --
 -- 使用表AUTO_INCREMENT `event`
 --
 ALTER TABLE `event`
-  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- 使用表AUTO_INCREMENT `eventdates`
 --
 ALTER TABLE `eventdates`
-  MODIFY `EventDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `EventDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 使用表AUTO_INCREMENT `facility`
 --
 ALTER TABLE `facility`
-  MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `FacilityID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用表AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
